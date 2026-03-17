@@ -1,9 +1,29 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import WebVitals from "@/components/WebVitals";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
 
 export const metadata: Metadata = {
-  title: "موقع المحتوى",
-  description: "موقع محتوى عربي",
+  title: {
+    default: "موقع المحتوى",
+    template: "%s | موقع المحتوى",
+  },
+  description: "موقع محتوى عربي - مراجعات ومقارنات وأدلة شراء",
+  metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "ar_SA",
+    siteName: "موقع المحتوى",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -13,7 +33,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl">
-      <body>{children}</body>
+      <body>
+        <GoogleAnalytics />
+        <WebVitals />
+        {children}
+      </body>
     </html>
   );
 }

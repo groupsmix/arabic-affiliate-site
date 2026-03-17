@@ -1,10 +1,12 @@
 import type { Product } from "@/lib/types";
+import AffiliateLink from "@/components/AffiliateLink";
 
 interface ProductCardProps {
   product: Product;
+  contentSlug?: string;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, contentSlug }: ProductCardProps) {
   return (
     <div className="border border-foreground/10 rounded-lg p-4">
       {product.image_url && (
@@ -25,14 +27,14 @@ export default function ProductCard({ product }: ProductCardProps) {
         <p className="text-sm font-bold mb-3">{product.price}</p>
       )}
       {product.affiliate_url && (
-        <a
+        <AffiliateLink
           href={product.affiliate_url}
-          target="_blank"
-          rel="nofollow noopener sponsored"
+          productName={product.name}
+          contentSlug={contentSlug}
           className="inline-block bg-foreground text-background px-4 py-2 rounded text-sm font-medium hover:opacity-80"
         >
           اشتري الآن
-        </a>
+        </AffiliateLink>
       )}
     </div>
   );

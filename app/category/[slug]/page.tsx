@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import Shell from "@/components/Shell";
 import PageHeader from "@/components/PageHeader";
 import Breadcrumb from "@/components/Breadcrumb";
 import ArticleCard from "@/components/ArticleCard";
+import JsonLdBreadcrumb from "@/components/JsonLdBreadcrumb";
 import {
   getCategoryBySlug,
   getPublishedContentByCategory,
@@ -15,6 +17,22 @@ interface CategoryPageProps {
   params: Promise<{ slug: string }>;
 }
 
+export async function generateMetadata({
+  params,
+}: CategoryPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const category = await getCategoryBySlug(slug);
+  if (!category) return {};
+
+  return {
+    title: category.name,
+    description: `مقالات ومراجعات في تصنيف ${category.name}`,
+    alternates: {
+      canonical: `/category/${slug}`,
+    },
+  };
+}
+
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
   const [category, articles, categories] = await Promise.all([
@@ -25,8 +43,14 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   if (!category) notFound();
 
+  const jsonLdItems = [
+    { name: "الرئيسية", url: "/" },
+    { name: category.name, url: `/category/${slug}` },
+  ];
+
   return (
     <Shell categories={categories}>
+      <JsonLdBreadcrumb items={jsonLdItems} />
       <Breadcrumb items={[{ label: category.name }]} />
       <PageHeader title={category.name} />
       {articles.length === 0 ? (
