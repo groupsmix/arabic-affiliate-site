@@ -1,3 +1,5 @@
+import { sanitizeHtml } from "@/lib/sanitize";
+
 type ContentBodyProps = {
   body: string | null;
 };
@@ -14,7 +16,7 @@ export default function ContentBody({ body }: ContentBodyProps) {
   return (
     <div
       className="prose prose-lg max-w-none"
-      dangerouslySetInnerHTML={{ __html: body }}
+      dangerouslySetInnerHTML={{ __html: sanitizeHtml(body) }}
     />
   );
 }
