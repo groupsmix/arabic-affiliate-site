@@ -4,6 +4,8 @@ import {
   getAllProducts,
   getLinkedProductIds,
 } from "@/lib/admin";
+
+export const dynamic = "force-dynamic";
 import {
   updateContentAction,
   updateStatusAction,

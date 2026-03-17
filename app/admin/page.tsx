@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getAllContent } from "@/lib/admin";
 
+export const dynamic = "force-dynamic";
+
 const STATUS_LABELS: Record<string, string> = {
   idea: "فكرة",
   writing: "قيد الكتابة",

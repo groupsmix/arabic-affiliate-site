@@ -10,6 +10,8 @@ import BestPageLayout from "@/components/BestPageLayout";
 import ProblemPageLayout from "@/components/ProblemPageLayout";
 import ComparisonPageLayout from "@/components/ComparisonPageLayout";
 
+export const dynamic = "force-dynamic";
+
 export default async function ContentPage({
   params,
 }: {

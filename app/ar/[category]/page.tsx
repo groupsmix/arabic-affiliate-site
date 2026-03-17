@@ -4,6 +4,8 @@ import Breadcrumb from "@/components/Breadcrumb";
 import PageHeader from "@/components/PageHeader";
 import ArticleCard from "@/components/ArticleCard";
 
+export const dynamic = "force-dynamic";
+
 export default async function CategoryPage({
   params,
 }: {

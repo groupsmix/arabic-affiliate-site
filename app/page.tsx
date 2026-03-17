@@ -3,6 +3,8 @@ import Shell from "@/components/Shell";
 import PageHeader from "@/components/PageHeader";
 import ArticleCard from "@/components/ArticleCard";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const articles = await getHomepageData();
 

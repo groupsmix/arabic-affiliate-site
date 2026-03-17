@@ -14,6 +14,7 @@ export type ContentCard = {
 
 export type ContentRow = ContentCard & {
   body: string;
+  status: string;
   meta_title: string | null;
   meta_description: string | null;
 };
@@ -83,8 +84,9 @@ export async function getLinkedProducts(
 
   if (error) throw error;
 
-  return (data ?? []).map(
-    (row: { products: Product }) => row.products
+  return (data ?? []).flatMap(
+    (row: { products: Product | Product[] }) =>
+      Array.isArray(row.products) ? row.products : [row.products]
   );
 }
 

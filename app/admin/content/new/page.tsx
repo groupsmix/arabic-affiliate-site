@@ -1,20 +1,11 @@
-import { redirect } from "next/navigation";
 import { createContentAction } from "@/lib/actions";
 
 export default function NewContentPage() {
-  async function handleCreate(formData: FormData) {
-    "use server";
-    const result = await createContentAction(formData);
-    if (result.success && result.id) {
-      redirect(`/admin/content/${result.id}`);
-    }
-  }
-
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-6">محتوى جديد</h1>
 
-      <form action={handleCreate} className="space-y-4">
+      <form action={createContentAction} className="space-y-4">
         <div>
           <label className="block text-sm font-medium mb-1">العنوان *</label>
           <input
