@@ -1,12 +1,31 @@
-export default function Home() {
+import Shell from "@/components/Shell";
+import PageHeader from "@/components/PageHeader";
+import ArticleCard from "@/components/ArticleCard";
+import { getPublishedContent, getCategories } from "@/lib/queries";
+
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const [articles, categories] = await Promise.all([
+    getPublishedContent(),
+    getCategories(),
+  ]);
+
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">مرحباً بالعالم</h1>
-        <p className="text-lg text-foreground/70">
-          تم إعداد المشروع بنجاح. جاهز للخطوة التالية.
-        </p>
-      </div>
-    </main>
+    <Shell categories={categories}>
+      <PageHeader
+        title="أحدث المقالات"
+        description="اكتشف أفضل المراجعات والمقارنات وأدلة الشراء"
+      />
+      {articles.length === 0 ? (
+        <p className="text-foreground/50">لا توجد مقالات منشورة حالياً.</p>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2">
+          {articles.map((article) => (
+            <ArticleCard key={article.id} content={article} />
+          ))}
+        </div>
+      )}
+    </Shell>
   );
 }
