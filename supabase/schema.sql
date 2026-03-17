@@ -53,8 +53,22 @@ CREATE POLICY "Public read published content" ON content FOR SELECT USING (statu
 CREATE POLICY "Public read products" ON products FOR SELECT USING (true);
 CREATE POLICY "Public read content_products" ON content_products FOR SELECT USING (true);
 
+-- Affiliate click tracking
+CREATE TABLE affiliate_clicks (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  product_name text DEFAULT '',
+  affiliate_url text DEFAULT '',
+  content_slug text DEFAULT '',
+  referrer text DEFAULT '',
+  created_at timestamptz DEFAULT now()
+);
+
+ALTER TABLE affiliate_clicks ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Insert affiliate clicks" ON affiliate_clicks FOR INSERT WITH CHECK (true);
+
 -- Indexes for performance
 CREATE INDEX idx_content_status ON content(status);
 CREATE INDEX idx_content_category ON content(category_id);
 CREATE INDEX idx_content_slug ON content(slug);
 CREATE INDEX idx_categories_slug ON categories(slug);
+CREATE INDEX idx_affiliate_clicks_created ON affiliate_clicks(created_at);
