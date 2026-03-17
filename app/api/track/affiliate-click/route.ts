@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase-server";
+import { supabase } from "@/lib/supabase";
 
 export async function POST(request: Request) {
   try {
@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     const { product_name, affiliate_url, content_slug, referrer } = body;
 
     // Fire-and-forget insert — don't block response on DB
-    supabaseAdmin
+    supabase
       .from("affiliate_clicks")
       .insert({
         product_name: (product_name as string)?.slice(0, 255) ?? "",

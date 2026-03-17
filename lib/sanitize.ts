@@ -23,8 +23,8 @@ export function sanitizeHtml(html: string): string {
     'src="'
   );
 
-  // Remove iframe, embed, object tags
-  clean = clean.replace(/<\/?(?:iframe|embed|object|form|input|button)\b[^>]*>/gi, "");
+  // Remove iframe, embed, object, svg, math, base, meta, link tags
+  clean = clean.replace(/<\/?(?:iframe|embed|object|form|input|button|svg|math|base|meta|link)\b[^>]*>/gi, "");
 
   return clean;
 }
