@@ -1,12 +1,24 @@
-export default function Home() {
+import { getHomepageData } from "@/lib/queries";
+import Shell from "@/components/Shell";
+import PageHeader from "@/components/PageHeader";
+import ArticleCard from "@/components/ArticleCard";
+
+export default async function Home() {
+  const articles = await getHomepageData();
+
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">مرحباً بالعالم</h1>
-        <p className="text-lg text-foreground/70">
-          تم إعداد المشروع بنجاح. جاهز للخطوة التالية.
-        </p>
-      </div>
-    </main>
+    <Shell>
+      <PageHeader title="مرحباً بالعالم" subtitle="أحدث المقالات" />
+
+      {articles.length === 0 ? (
+        <p className="text-foreground/60">لا توجد مقالات حالياً.</p>
+      ) : (
+        <div className="grid gap-4 sm:grid-cols-2">
+          {articles.map((article) => (
+            <ArticleCard key={article.id} article={article} />
+          ))}
+        </div>
+      )}
+    </Shell>
   );
 }

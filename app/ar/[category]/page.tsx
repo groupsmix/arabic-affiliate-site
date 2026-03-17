@@ -1,5 +1,8 @@
-import Link from "next/link";
 import { getCategoryPage } from "@/lib/queries";
+import Shell from "@/components/Shell";
+import Breadcrumb from "@/components/Breadcrumb";
+import PageHeader from "@/components/PageHeader";
+import ArticleCard from "@/components/ArticleCard";
 
 export default async function CategoryPage({
   params,
@@ -9,26 +12,25 @@ export default async function CategoryPage({
   const { category } = await params;
   const articles = await getCategoryPage(category);
 
+  const crumbs = [
+    { label: "الرئيسية", href: "/" },
+    { label: category },
+  ];
+
   return (
-    <main className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">{category}</h1>
+    <Shell>
+      <Breadcrumb crumbs={crumbs} />
+      <PageHeader title={category} />
 
       {articles.length === 0 ? (
         <p className="text-foreground/60">لا توجد مقالات في هذا القسم.</p>
       ) : (
-        <ul className="space-y-3">
+        <div className="grid gap-4 sm:grid-cols-2">
           {articles.map((article) => (
-            <li key={article.id}>
-              <Link
-                href={`/ar/${category}/${article.slug}`}
-                className="text-lg underline hover:opacity-70"
-              >
-                {article.title}
-              </Link>
-            </li>
+            <ArticleCard key={article.id} article={article} />
           ))}
-        </ul>
+        </div>
       )}
-    </main>
+    </Shell>
   );
 }
