@@ -563,14 +563,28 @@ export async function createCategory(formData: FormData): Promise<{
     throw error;
   }
 
+  revalidatePath("/");
   return { success: true };
 }
 
 export async function deleteCategory(id: string): Promise<void> {
   await requireAdmin();
+
+  // Fetch slug before deletion for revalidation
+  const { data: category } = await supabaseAdmin
+    .from("categories")
+    .select("slug")
+    .eq("id", id)
+    .single();
+
   const { error } = await supabaseAdmin
     .from("categories")
     .delete()
     .eq("id", id);
   if (error) throw error;
+
+  revalidatePath("/");
+  if (category) {
+    revalidatePath("/category/" + category.slug);
+  }
 }
