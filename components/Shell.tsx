@@ -14,12 +14,12 @@ export default function Shell({ children, categories = [] }: ShellProps) {
           <Link href="/" className="text-xl font-bold">
             موقع المحتوى
           </Link>
-          <nav className="flex gap-4 text-sm">
+          <nav className="flex flex-wrap gap-2 sm:gap-4 text-sm">
             {categories.map((cat) => (
               <Link
                 key={cat.id}
                 href={`/category/${cat.slug}`}
-                className="hover:underline"
+                className="hover:underline py-1"
               >
                 {cat.name}
               </Link>

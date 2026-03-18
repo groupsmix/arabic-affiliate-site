@@ -31,7 +31,7 @@ export default function ProductCard({ product, contentSlug }: ProductCardProps) 
           href={product.affiliate_url}
           productName={product.name}
           contentSlug={contentSlug}
-          className="inline-block bg-foreground text-background px-4 py-2 rounded text-sm font-medium hover:opacity-80"
+          className="block w-full text-center bg-foreground text-background px-4 py-2 rounded text-sm font-medium hover:opacity-80"
         >
           اشتري الآن
         </AffiliateLink>

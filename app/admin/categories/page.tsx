@@ -47,8 +47,8 @@ export default async function AdminCategoriesPage() {
       {categories.length === 0 ? (
         <p className="text-foreground/50">لا توجد تصنيفات بعد.</p>
       ) : (
-        <div className="border border-foreground/10 rounded-lg overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="border border-foreground/10 rounded-lg overflow-x-auto">
+          <table className="w-full text-sm min-w-[400px]">
             <thead className="bg-foreground/5">
               <tr>
                 <th className="text-right px-4 py-3 font-medium">الاسم</th>
