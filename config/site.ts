@@ -58,6 +58,12 @@ export const siteConfig = {
   /** Label for the "Products" sidebar/section heading */
   productsHeading: "المنتجات المقترحة",
 
+  /** Placeholder hint for the price field in admin — REPLACE with your currency */
+  pricePlaceholder: "مثال: 199 ريال",
+
+  /** Label shown next to merchant/source name on product cards */
+  merchantLabel: "المتجر",
+
   // ── Navigation ────────────────────────────────────────────────
 
   /** Navigation links rendered in the footer */

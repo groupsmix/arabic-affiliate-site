@@ -350,6 +350,7 @@ export async function createProduct(formData: FormData): Promise<{
   const affiliateUrl = (formData.get("affiliate_url") as string) ?? "";
   const imageUrl = (formData.get("image_url") as string) ?? "";
   const price = (formData.get("price") as string) ?? "";
+  const merchant = (formData.get("merchant") as string) ?? "";
 
   if (!name.trim()) {
     return { success: false, errors: ["اسم المنتج مطلوب"] };
@@ -363,6 +364,7 @@ export async function createProduct(formData: FormData): Promise<{
       affiliate_url: affiliateUrl.trim(),
       image_url: imageUrl.trim(),
       price: price.trim(),
+      merchant: merchant.trim(),
     })
     .select("id")
     .single();
@@ -382,6 +384,7 @@ export async function updateProduct(
   const affiliateUrl = (formData.get("affiliate_url") as string) ?? "";
   const imageUrl = (formData.get("image_url") as string) ?? "";
   const price = (formData.get("price") as string) ?? "";
+  const merchant = (formData.get("merchant") as string) ?? "";
 
   if (!name.trim()) {
     return { success: false, errors: ["اسم المنتج مطلوب"] };
@@ -395,6 +398,7 @@ export async function updateProduct(
       affiliate_url: affiliateUrl.trim(),
       image_url: imageUrl.trim(),
       price: price.trim(),
+      merchant: merchant.trim(),
     })
     .eq("id", id);
 

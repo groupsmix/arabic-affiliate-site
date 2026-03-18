@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createProduct, updateProduct, deleteProduct } from "@/lib/actions";
 import type { Product } from "@/lib/types";
+import { siteConfig } from "@/config/site";
 
 interface ProductFormProps {
   product?: Product | null;
@@ -20,6 +21,7 @@ export default function ProductForm({ product }: ProductFormProps) {
   );
   const [imageUrl, setImageUrl] = useState(product?.image_url ?? "");
   const [price, setPrice] = useState(product?.price ?? "");
+  const [merchant, setMerchant] = useState(product?.merchant ?? "");
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -34,6 +36,7 @@ export default function ProductForm({ product }: ProductFormProps) {
     formData.set("affiliate_url", affiliateUrl);
     formData.set("image_url", imageUrl);
     formData.set("price", price);
+    formData.set("merchant", merchant);
 
     try {
       if (isEdit && product) {
@@ -134,7 +137,18 @@ export default function ProductForm({ product }: ProductFormProps) {
           value={price}
           onChange={(e) => setPrice(e.target.value)}
           className="w-full border border-foreground/20 rounded px-3 py-2 bg-background"
-          placeholder="مثال: 199 ريال"
+          placeholder={siteConfig.pricePlaceholder}
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">{siteConfig.merchantLabel}</label>
+        <input
+          type="text"
+          value={merchant}
+          onChange={(e) => setMerchant(e.target.value)}
+          className="w-full border border-foreground/20 rounded px-3 py-2 bg-background"
+          placeholder="مثال: Amazon, Noon"
         />
       </div>
 

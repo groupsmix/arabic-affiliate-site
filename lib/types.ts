@@ -29,6 +29,7 @@ export interface Product {
   affiliate_url: string;
   image_url: string;
   price: string;
+  merchant: string;
   created_at: string;
 }
 
