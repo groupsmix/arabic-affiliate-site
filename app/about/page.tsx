@@ -1,24 +1,33 @@
 import type { Metadata } from "next";
 import Shell from "@/components/Shell";
 import PageHeader from "@/components/PageHeader";
+import JsonLdBreadcrumb from "@/components/JsonLdBreadcrumb";
 import { getCategories } from "@/lib/queries";
+import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "من نحن",
-  description: "تعرّف على موقع المحتوى وكيفية التواصل معنا",
+  title: siteConfig.pages.about.title,
+  description: siteConfig.pages.about.description,
+  alternates: { canonical: "/about" },
   robots: { index: true, follow: true },
 };
 
 export default async function AboutPage() {
   const categories = await getCategories();
 
+  const jsonLdItems = [
+    { name: siteConfig.homeLabel, url: "/" },
+    { name: siteConfig.pages.about.heading, url: "/about" },
+  ];
+
   return (
     <Shell categories={categories}>
-      <PageHeader title="من نحن" />
+      <JsonLdBreadcrumb items={jsonLdItems} />
+      <PageHeader title={siteConfig.pages.about.heading} />
 
       <div className="prose prose-lg max-w-none" dir="rtl">
         <p>
-          <strong>موقع المحتوى</strong> هو موقع عربي متخصص في تقديم مراجعات
+          <strong>{siteConfig.name}</strong> هو موقع عربي متخصص في تقديم مراجعات
           صادقة ومقارنات موضوعية وأدلة شراء شاملة لمساعدتك في اتخاذ قرارات
           شراء مدروسة.
         </p>
@@ -32,10 +41,7 @@ export default async function AboutPage() {
 
         <h2>كيف نعمل</h2>
         <p>
-          نقوم بمراجعة المنتجات والخدمات ومقارنتها بشكل مستقل. قد نحصل على
-          عمولة عند الشراء من خلال الروابط التسويقية الموجودة في موقعنا، لكن هذا
-          لا يؤثر على تقييماتنا أو توصياتنا. الأسعار التي تدفعها تبقى نفسها
-          سواء استخدمت روابطنا أم لا.
+          نقوم بمراجعة المنتجات والخدمات ومقارنتها بشكل مستقل. {siteConfig.contentDisclosure}
         </p>
 
         <h2>التواصل معنا</h2>
@@ -44,12 +50,9 @@ export default async function AboutPage() {
           الإلكتروني:
         </p>
         <p>
-          <a href="mailto:contact@example.com" dir="ltr">
-            contact@example.com
+          <a href={`mailto:${siteConfig.contactEmail}`} dir="ltr">
+            {siteConfig.contactEmail}
           </a>
-        </p>
-        <p className="text-foreground/40 text-sm">
-          (يرجى تحديث عنوان البريد الإلكتروني بعنوانك الفعلي)
         </p>
       </div>
     </Shell>

@@ -32,6 +32,24 @@ export const seoConfig = {
     follow: true,
   },
 
+  /**
+   * Paths disallowed in robots.txt.
+   * Add paths that should not be crawled (e.g. admin, API routes).
+   */
+  robotsDisallow: ["/admin/", "/api/"],
+
+  /**
+   * Static pages to include in the sitemap beyond content/category pages.
+   * `path` is relative to the site root; `priority` and `changeFrequency`
+   * follow the sitemap protocol.
+   */
+  sitemapStaticPages: [
+    { path: "/", priority: 1, changeFrequency: "daily" as const },
+    { path: "/about", priority: 0.3, changeFrequency: "monthly" as const },
+    { path: "/privacy", priority: 0.3, changeFrequency: "monthly" as const },
+    { path: "/terms", priority: 0.3, changeFrequency: "monthly" as const },
+  ],
+
   /** Category page meta description template (use %s for category name) */
   categoryDescriptionTemplate: siteConfig.categoryDescriptionTemplate,
 } as const;

@@ -64,6 +64,29 @@ export const siteConfig = {
   /** Label shown next to merchant/source name on product cards */
   merchantLabel: "المتجر",
 
+  // ── Legal / info page metadata ───────────────────────────────
+  // Title & description used in <head> for each static page.
+  // The actual page *body copy* lives in the page files themselves;
+  // only metadata & headings are driven from here.
+
+  pages: {
+    about: {
+      title: "من نحن",
+      description: "تعرّف على موقعنا وكيفية التواصل معنا",
+      heading: "من نحن",
+    },
+    privacy: {
+      title: "سياسة الخصوصية",
+      description: "سياسة الخصوصية وحماية البيانات الشخصية",
+      heading: "سياسة الخصوصية",
+    },
+    terms: {
+      title: "شروط الاستخدام",
+      description: "شروط وأحكام استخدام الموقع",
+      heading: "شروط الاستخدام",
+    },
+  },
+
   // ── Navigation ────────────────────────────────────────────────
 
   /** Navigation links rendered in the footer */
