@@ -115,4 +115,106 @@ export const siteConfig = {
   errorRetryLabel: "إعادة المحاولة",
 } as const;
 
+/**
+ * Admin panel labels — edit these when translating the admin UI.
+ *
+ * These are separated from siteConfig because they are internal-only
+ * (not shown to site visitors). Keeping them in one place makes the
+ * admin generic across niches without a full i18n system.
+ */
+export const adminLabels = {
+  // ── Layout / nav ────────────────────────────────────────────────
+  dashboard: "لوحة التحكم",
+  content: "المحتوى",
+  products: "المنتجات",
+  categories: "التصنيفات",
+  viewSite: "الموقع",
+  logout: "خروج",
+
+  // ── Content CRUD ────────────────────────────────────────────────
+  newContent: "محتوى جديد",
+  editContent: "تعديل المحتوى",
+  createContentBtn: "إنشاء محتوى جديد",
+  noContent: "لا يوجد محتوى بعد.",
+  colTitle: "العنوان",
+  colType: "النوع",
+  colStatus: "الحالة",
+  colDate: "التاريخ",
+  statusPublished: "منشور",
+  statusDraft: "مسودة",
+
+  // ── Content form ────────────────────────────────────────────────
+  fieldTitle: "العنوان *",
+  fieldSlug: "الرابط المختصر *",
+  fieldType: "النوع",
+  fieldCategory: "التصنيف",
+  fieldExcerpt: "المقتطف",
+  fieldBody: "المحتوى (HTML) *",
+  noCategory: "بدون تصنيف",
+  autoSlug: "تلقائي",
+  saving: "جاري الحفظ...",
+  saveChanges: "حفظ التغييرات",
+  create: "إنشاء",
+  publish: "نشر",
+  unpublish: "إلغاء النشر",
+  deleteBtn: "حذف",
+  confirmDeleteContent: "هل أنت متأكد من حذف هذا المحتوى؟",
+  unexpectedError: "حدث خطأ غير متوقع",
+  deleteError: "حدث خطأ في الحذف",
+
+  // ── Product CRUD ────────────────────────────────────────────────
+  newProduct: "منتج جديد",
+  editProduct: "تعديل المنتج",
+  addProductBtn: "إضافة منتج جديد",
+  noProducts: "لا توجد منتجات بعد.",
+  colName: "الاسم",
+  colPrice: "السعر",
+  colAffiliateUrl: "رابط الأفلييت",
+  fieldProductName: "اسم المنتج *",
+  fieldDescription: "الوصف",
+  fieldAffiliateUrl: "رابط الأفلييت",
+  fieldImageUrl: "رابط الصورة",
+  fieldPrice: "السعر",
+  confirmDeleteProduct: "هل أنت متأكد من حذف هذا المنتج؟",
+
+  // ── Product linker ──────────────────────────────────────────────
+  linkedProducts: "المنتجات المرتبطة",
+  noLinkedProducts: "لا توجد منتجات مرتبطة",
+  selectProduct: "اختر منتج لربطه...",
+  linkBtn: "ربط",
+  unlinkBtn: "إزالة",
+  linkError: "فشل ربط المنتج",
+  unlinkError: "فشل إزالة المنتج",
+  refreshError: "فشل تحديث قائمة المنتجات",
+
+  // ── Categories ──────────────────────────────────────────────────
+  categoryNamePlaceholder: "اسم التصنيف",
+  categorySlugPlaceholder: "الرابط (اختياري)",
+  addCategory: "إضافة",
+  noCategories: "لا توجد تصنيفات بعد.",
+  colSlug: "الرابط",
+  colAction: "إجراء",
+
+  // ── Login ───────────────────────────────────────────────────────
+  loginTitle: "تسجيل الدخول",
+  loginPassword: "كلمة المرور",
+  loginSubmit: "دخول",
+  loginLoading: "جاري الدخول...",
+  loginWrongPassword: "كلمة المرور غير صحيحة",
+  loginConnectionError: "حدث خطأ في الاتصال",
+
+  // ── Validation (server-side) ────────────────────────────────────
+  validationTitleRequired: "العنوان مطلوب",
+  validationSlugRequired: "الرابط المختصر مطلوب",
+  validationBodyRequired: "المحتوى مطلوب",
+  validationCommercialNeedsProduct: "صفحة تجارية يجب أن تحتوي على منتج واحد على الأقل",
+  validationMinProducts: "هذا النوع يتطلب %d منتجات على الأقل",
+  validationSlugTaken: "الرابط المختصر مستخدم بالفعل",
+  validationContentNotFound: "المحتوى غير موجود",
+  validationProductNameRequired: "اسم المنتج مطلوب",
+  validationCategoryNameRequired: "اسم التصنيف مطلوب",
+  validationCategoryExists: "التصنيف موجود بالفعل",
+} as const;
+
 export type SiteConfig = typeof siteConfig;
+export type AdminLabels = typeof adminLabels;

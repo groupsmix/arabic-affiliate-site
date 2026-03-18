@@ -12,6 +12,7 @@ import type { Content, Category } from "@/lib/types";
 import { slugify } from "@/lib/slugify";
 import { contentTypes } from "@/config/categories";
 import type { ContentTypeValue } from "@/config/categories";
+import { adminLabels } from "@/config/site";
 
 interface ContentFormProps {
   content?: Content | null;
@@ -83,7 +84,7 @@ export default function ContentForm({
         router.push(`/admin/content/${result.id}`);
       }
     } catch {
-      setErrors(["حدث خطأ غير متوقع"]);
+      setErrors([adminLabels.unexpectedError]);
     }
     setLoading(false);
   }
@@ -103,20 +104,20 @@ export default function ContentForm({
       if (result.warnings?.length) setWarnings(result.warnings);
       router.refresh();
     } catch {
-      setErrors(["حدث خطأ غير متوقع"]);
+      setErrors([adminLabels.unexpectedError]);
     }
     setLoading(false);
   }
 
   async function handleDelete() {
     if (!content) return;
-    if (!confirm("هل أنت متأكد من حذف هذا المحتوى؟")) return;
+    if (!confirm(adminLabels.confirmDeleteContent)) return;
     setLoading(true);
     try {
       await deleteContent(content.id);
       router.push("/admin");
     } catch {
-      setErrors(["حدث خطأ في الحذف"]);
+      setErrors([adminLabels.deleteError]);
       setLoading(false);
     }
   }
@@ -139,7 +140,7 @@ export default function ContentForm({
       )}
 
       <div>
-        <label className="block text-sm font-medium mb-1">العنوان *</label>
+        <label className="block text-sm font-medium mb-1">{adminLabels.fieldTitle}</label>
         <input
           type="text"
           value={title}
@@ -151,7 +152,7 @@ export default function ContentForm({
 
       <div>
         <label className="block text-sm font-medium mb-1">
-          الرابط المختصر *
+          {adminLabels.fieldSlug}
         </label>
         <div className="flex gap-2 items-center">
           <input
@@ -174,7 +175,7 @@ export default function ContentForm({
               }}
               className="text-xs text-foreground/50 hover:text-foreground"
             >
-              تلقائي
+              {adminLabels.autoSlug}
             </button>
           )}
         </div>
@@ -182,7 +183,7 @@ export default function ContentForm({
 
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1">النوع</label>
+          <label className="block text-sm font-medium mb-1">{adminLabels.fieldType}</label>
           <select
             value={type}
             onChange={(e) =>
@@ -198,13 +199,13 @@ export default function ContentForm({
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">التصنيف</label>
+          <label className="block text-sm font-medium mb-1">{adminLabels.fieldCategory}</label>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
             className="w-full border border-foreground/20 rounded px-3 py-2 bg-background"
           >
-            <option value="">بدون تصنيف</option>
+            <option value="">{adminLabels.noCategory}</option>
             {categories.map((cat) => (
               <option key={cat.id} value={cat.id}>
                 {cat.name}
@@ -215,7 +216,7 @@ export default function ContentForm({
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">المقتطف</label>
+        <label className="block text-sm font-medium mb-1">{adminLabels.fieldExcerpt}</label>
         <textarea
           value={excerpt}
           onChange={(e) => setExcerpt(e.target.value)}
@@ -226,7 +227,7 @@ export default function ContentForm({
 
       <div>
         <label className="block text-sm font-medium mb-1">
-          المحتوى (HTML) *
+          {adminLabels.fieldBody}
         </label>
         <textarea
           value={body}
@@ -244,7 +245,7 @@ export default function ContentForm({
           disabled={loading}
           className="bg-foreground text-background px-4 py-2 rounded text-sm font-medium hover:opacity-80 disabled:opacity-50"
         >
-          {loading ? "جاري الحفظ..." : isEdit ? "حفظ التغييرات" : "إنشاء"}
+          {loading ? adminLabels.saving : isEdit ? adminLabels.saveChanges : adminLabels.create}
         </button>
 
         {isEdit && content && (
@@ -256,7 +257,7 @@ export default function ContentForm({
                 disabled={loading}
                 className="bg-green-600 text-white px-4 py-2 rounded text-sm font-medium hover:opacity-80 disabled:opacity-50"
               >
-                نشر
+                {adminLabels.publish}
               </button>
             ) : (
               <button
@@ -265,7 +266,7 @@ export default function ContentForm({
                 disabled={loading}
                 className="bg-yellow-600 text-white px-4 py-2 rounded text-sm font-medium hover:opacity-80 disabled:opacity-50"
               >
-                إلغاء النشر
+                {adminLabels.unpublish}
               </button>
             )}
             <button
@@ -274,7 +275,7 @@ export default function ContentForm({
               disabled={loading}
               className="bg-red-600 text-white px-4 py-2 rounded text-sm font-medium hover:opacity-80 disabled:opacity-50"
             >
-              حذف
+              {adminLabels.deleteBtn}
             </button>
           </>
         )}

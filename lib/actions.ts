@@ -8,6 +8,7 @@ import { sanitizeHtml, stripHtml } from "./sanitize";
 import { slugify } from "./slugify";
 import type { Content, Product, Category } from "./types";
 import { commercialTypes, contentTypeMinProducts } from "@/config/categories";
+import { adminLabels } from "@/config/site";
 
 // ---- Auth helper ----
 
@@ -37,19 +38,19 @@ function validateContent(
   const errors: string[] = [];
   const warnings: string[] = [];
 
-  if (!title.trim()) errors.push("العنوان مطلوب");
-  if (!slug.trim()) errors.push("الرابط المختصر مطلوب");
-  if (!body.trim()) errors.push("المحتوى مطلوب");
+  if (!title.trim()) errors.push(adminLabels.validationTitleRequired);
+  if (!slug.trim()) errors.push(adminLabels.validationSlugRequired);
+  if (!body.trim()) errors.push(adminLabels.validationBodyRequired);
 
   const minProducts = contentTypeMinProducts[type] ?? 0;
 
   if (commercialTypes.has(type) && productCount === 0 && minProducts === 0) {
-    errors.push("صفحة تجارية يجب أن تحتوي على منتج واحد على الأقل");
+    errors.push(adminLabels.validationCommercialNeedsProduct);
   }
 
   if (minProducts > 0 && productCount < minProducts) {
     errors.push(
-      `هذا النوع يتطلب ${minProducts} منتجات على الأقل`
+      adminLabels.validationMinProducts.replace("%d", String(minProducts))
     );
   }
 
@@ -142,7 +143,7 @@ export async function createContent(formData: FormData): Promise<{
 
   if (error) {
     if (error.code === "23505") {
-      return { success: false, errors: ["الرابط المختصر مستخدم بالفعل"] };
+      return { success: false, errors: [adminLabels.validationSlugTaken] };
     }
     throw error;
   }
@@ -211,7 +212,7 @@ export async function updateContent(
 
   if (error) {
     if (error.code === "23505") {
-      return { success: false, errors: ["الرابط المختصر مستخدم بالفعل"] };
+      return { success: false, errors: [adminLabels.validationSlugTaken] };
     }
     throw error;
   }
@@ -239,7 +240,7 @@ export async function updateContentStatus(
       .eq("id", id)
       .single();
 
-    if (!content) return { success: false, errors: ["المحتوى غير موجود"] };
+    if (!content) return { success: false, errors: [adminLabels.validationContentNotFound] };
 
     const { data: links } = await supabaseAdmin
       .from("content_products")
@@ -353,7 +354,7 @@ export async function createProduct(formData: FormData): Promise<{
   const merchant = (formData.get("merchant") as string) ?? "";
 
   if (!name.trim()) {
-    return { success: false, errors: ["اسم المنتج مطلوب"] };
+    return { success: false, errors: [adminLabels.validationProductNameRequired] };
   }
 
   const { data, error } = await supabaseAdmin
@@ -387,7 +388,7 @@ export async function updateProduct(
   const merchant = (formData.get("merchant") as string) ?? "";
 
   if (!name.trim()) {
-    return { success: false, errors: ["اسم المنتج مطلوب"] };
+    return { success: false, errors: [adminLabels.validationProductNameRequired] };
   }
 
   const { error } = await supabaseAdmin
@@ -557,7 +558,7 @@ export async function createCategory(formData: FormData): Promise<{
   let slug = (formData.get("slug") as string) ?? "";
 
   if (!name.trim()) {
-    return { success: false, errors: ["اسم التصنيف مطلوب"] };
+    return { success: false, errors: [adminLabels.validationCategoryNameRequired] };
   }
 
   if (!slug) slug = slugify(name);
@@ -568,7 +569,7 @@ export async function createCategory(formData: FormData): Promise<{
 
   if (error) {
     if (error.code === "23505") {
-      return { success: false, errors: ["التصنيف موجود بالفعل"] };
+      return { success: false, errors: [adminLabels.validationCategoryExists] };
     }
     throw error;
   }

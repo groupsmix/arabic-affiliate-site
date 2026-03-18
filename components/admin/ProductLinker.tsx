@@ -8,6 +8,7 @@ import {
   unlinkProduct,
 } from "@/lib/actions";
 import type { Product } from "@/lib/types";
+import { adminLabels } from "@/config/site";
 
 interface ProductLinkerProps {
   contentId: string;
@@ -35,7 +36,7 @@ export default function ProductLinker({
       setLinked(l);
       setAvailable(a);
     } catch {
-      setError("فشل تحديث قائمة المنتجات");
+      setError(adminLabels.refreshError);
     }
   }
 
@@ -48,7 +49,7 @@ export default function ProductLinker({
       setSelectedId("");
       await refreshProducts();
     } catch {
-      setError("فشل ربط المنتج");
+      setError(adminLabels.linkError);
     }
     setLoading(false);
   }
@@ -60,14 +61,14 @@ export default function ProductLinker({
       await unlinkProduct(contentId, productId);
       await refreshProducts();
     } catch {
-      setError("فشل إزالة المنتج");
+      setError(adminLabels.unlinkError);
     }
     setLoading(false);
   }
 
   return (
     <div className="border border-foreground/10 rounded-lg p-4">
-      <h3 className="font-semibold mb-3">المنتجات المرتبطة</h3>
+      <h3 className="font-semibold mb-3">{adminLabels.linkedProducts}</h3>
 
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 p-2 rounded text-sm mb-3">
@@ -76,7 +77,7 @@ export default function ProductLinker({
       )}
 
       {linked.length === 0 && (
-        <p className="text-sm text-foreground/50 mb-3">لا توجد منتجات مرتبطة</p>
+        <p className="text-sm text-foreground/50 mb-3">{adminLabels.noLinkedProducts}</p>
       )}
 
       {linked.length > 0 && (
@@ -92,7 +93,7 @@ export default function ProductLinker({
                 disabled={loading}
                 className="text-red-600 hover:underline text-xs disabled:opacity-50"
               >
-                إزالة
+                {adminLabels.unlinkBtn}
               </button>
             </li>
           ))}
@@ -106,7 +107,7 @@ export default function ProductLinker({
             onChange={(e) => setSelectedId(e.target.value)}
             className="flex-1 border border-foreground/20 rounded px-3 py-2 bg-background text-sm"
           >
-            <option value="">اختر منتج لربطه...</option>
+            <option value="">{adminLabels.selectProduct}</option>
             {available.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.name}
@@ -118,7 +119,7 @@ export default function ProductLinker({
             disabled={loading || !selectedId}
             className="bg-foreground text-background px-3 py-2 rounded text-sm disabled:opacity-50"
           >
-            ربط
+            {adminLabels.linkBtn}
           </button>
         </div>
       )}

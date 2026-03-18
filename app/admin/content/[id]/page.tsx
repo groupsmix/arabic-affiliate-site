@@ -7,6 +7,7 @@ import {
   getLinkedProducts,
   getAvailableProducts,
 } from "@/lib/actions";
+import { adminLabels } from "@/config/site";
 
 interface EditContentPageProps {
   params: Promise<{ id: string }>;
@@ -31,7 +32,7 @@ export default async function EditContentPage({
   return (
     <div>
       <div className="flex items-center gap-3 mb-6">
-        <h1 className="text-2xl font-bold">تعديل المحتوى</h1>
+        <h1 className="text-2xl font-bold">{adminLabels.editContent}</h1>
         <span
           className={
             content.status === "published"
@@ -39,7 +40,7 @@ export default async function EditContentPage({
               : "text-yellow-600 text-sm"
           }
         >
-          ({content.status === "published" ? "منشور" : "مسودة"})
+          ({content.status === "published" ? adminLabels.statusPublished : adminLabels.statusDraft})
         </span>
       </div>
       <ContentForm content={content} categories={categories} />
