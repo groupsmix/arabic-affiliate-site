@@ -120,7 +120,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
 
       {related.length > 0 && (
         <section className="mt-12 border-t border-foreground/10 pt-8">
-          <h2 className="font-semibold text-lg mb-4">مقالات ذات صلة</h2>
+          <h2 className="font-semibold text-lg mb-4">{siteConfig.relatedContentHeading}</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {related.map((item) => (
               <ArticleCard key={item.id} content={item} />

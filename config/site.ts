@@ -56,6 +56,34 @@ export const siteConfig = {
 
   /** Empty-state text when a category has no articles */
   noCategoryArticlesText: "لا توجد مقالات في هذا التصنيف.",
+
+  // ── Page-level UI strings ──────────────────────────────────
+
+  /** Homepage main heading */
+  homepageHeading: "أحدث المقالات",
+
+  /** Related-content section heading on content pages */
+  relatedContentHeading: "مقالات ذات صلة",
+
+  /** Category page meta description template (%s = category name) */
+  categoryDescriptionTemplate: "مقالات ومراجعات في تصنيف %s",
+
+  // ── Error / Not-Found page strings ─────────────────────────
+
+  /** 404 page message */
+  notFoundMessage: "الصفحة التي تبحث عنها غير موجودة.",
+
+  /** 404 page link text */
+  notFoundLinkText: "العودة للرئيسية",
+
+  /** Error page heading */
+  errorHeading: "حدث خطأ",
+
+  /** Error page message */
+  errorMessage: "نعتذر عن هذا الخطأ. يرجى المحاولة مرة أخرى.",
+
+  /** Error page retry button label */
+  errorRetryLabel: "إعادة المحاولة",
 } as const;
 
 export type SiteConfig = typeof siteConfig;
