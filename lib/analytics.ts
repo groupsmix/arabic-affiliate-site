@@ -34,14 +34,9 @@ export function trackAffiliateClick(
       content_slug: contentSlug ?? "",
       referrer: window.location.pathname,
     });
-    navigator.sendBeacon("/api/track/affiliate-click", body);
-  }
-}
-
-export function trackPageView(path: string) {
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("config", process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID, {
-      page_path: path,
-    });
+    navigator.sendBeacon(
+      "/api/track/affiliate-click",
+      new Blob([body], { type: "application/json" })
+    );
   }
 }
