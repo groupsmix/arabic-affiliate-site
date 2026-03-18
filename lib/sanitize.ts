@@ -26,6 +26,18 @@ export function sanitizeHtml(html: string): string {
   // Remove iframe, embed, object, svg, math, base, meta, link tags
   clean = clean.replace(/<\/?(?:iframe|embed|object|form|input|button|svg|math|base|meta|link)\b[^>]*>/gi, "");
 
+  // Enforce safe attributes on external <a> tags in body content
+  clean = clean.replace(
+    /<a\s+([^>]*?)>/gi,
+    (match, attrs) => {
+      if (!/href\s*=\s*["']https?:\/\//i.test(attrs)) return match;
+      const safeAttrs = attrs
+        .replace(/\s*rel\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, "")
+        .replace(/\s*target\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]*)/gi, "");
+      return `<a ${safeAttrs.trim()} rel="nofollow noopener noreferrer" target="_blank">`;
+    }
+  );
+
   return clean;
 }
 

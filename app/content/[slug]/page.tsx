@@ -75,6 +75,12 @@ export default async function ContentPage({ params }: ContentPageProps) {
       <Breadcrumb items={breadcrumbs} />
       <PageHeader title={content.title} description={content.excerpt} />
 
+      {hasProducts && (
+        <p className="text-sm text-foreground/50 bg-foreground/5 rounded p-3 mb-4">
+          يحتوي هذا المحتوى على روابط تسويقية. قد نحصل على عمولة عند الشراء من خلال هذه الروابط.
+        </p>
+      )}
+
       {showProductsSidebar ? (
         <div className="grid gap-8 lg:grid-cols-3">
           <div className="lg:col-span-2">
