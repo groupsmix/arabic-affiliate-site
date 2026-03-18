@@ -1,16 +1,15 @@
 import type { MetadataRoute } from "next";
+import { seoConfig } from "@/config/seo";
 
 export default function robots(): MetadataRoute.Robots {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
-
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin/", "/api/"],
+        disallow: seoConfig.robotsDisallow as unknown as string[],
       },
     ],
-    sitemap: `${siteUrl}/sitemap.xml`,
+    sitemap: `${seoConfig.siteUrl}/sitemap.xml`,
   };
 }

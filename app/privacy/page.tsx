@@ -1,24 +1,33 @@
 import type { Metadata } from "next";
 import Shell from "@/components/Shell";
 import PageHeader from "@/components/PageHeader";
+import JsonLdBreadcrumb from "@/components/JsonLdBreadcrumb";
 import { getCategories } from "@/lib/queries";
+import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "سياسة الخصوصية",
-  description: "سياسة الخصوصية وحماية البيانات الشخصية",
+  title: siteConfig.pages.privacy.title,
+  description: siteConfig.pages.privacy.description,
+  alternates: { canonical: "/privacy" },
   robots: { index: true, follow: true },
 };
 
 export default async function PrivacyPage() {
   const categories = await getCategories();
 
+  const jsonLdItems = [
+    { name: siteConfig.homeLabel, url: "/" },
+    { name: siteConfig.pages.privacy.heading, url: "/privacy" },
+  ];
+
   return (
     <Shell categories={categories}>
-      <PageHeader title="سياسة الخصوصية" />
+      <JsonLdBreadcrumb items={jsonLdItems} />
+      <PageHeader title={siteConfig.pages.privacy.heading} />
 
       <div className="prose prose-lg max-w-none" dir="rtl">
         <p>
-          نحن في <strong>موقع المحتوى</strong> نحترم خصوصيتك ونلتزم بحماية
+          نحن في <strong>{siteConfig.name}</strong> نحترم خصوصيتك ونلتزم بحماية
           بياناتك الشخصية. توضح هذه السياسة كيفية جمع واستخدام وحماية بياناتك
           عند استخدام موقعنا.
         </p>

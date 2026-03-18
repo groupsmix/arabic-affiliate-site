@@ -1,3 +1,5 @@
+import { seoConfig } from "@/config/seo";
+
 interface BreadcrumbItem {
   name: string;
   url: string;
@@ -8,7 +10,7 @@ interface JsonLdBreadcrumbProps {
 }
 
 export default function JsonLdBreadcrumb({ items }: JsonLdBreadcrumbProps) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+  const { siteUrl } = seoConfig;
 
   const jsonLd = {
     "@context": "https://schema.org",

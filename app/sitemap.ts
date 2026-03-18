@@ -1,23 +1,24 @@
 import type { MetadataRoute } from "next";
 import { getPublishedContent, getCategories } from "@/lib/queries";
 import { commercialTypes } from "@/config/categories";
+import { seoConfig } from "@/config/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
+  const { siteUrl } = seoConfig;
 
   const [content, categories] = await Promise.all([
     getPublishedContent(),
     getCategories(),
   ]);
 
-  const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: siteUrl,
+  const staticPages: MetadataRoute.Sitemap = seoConfig.sitemapStaticPages.map(
+    (page) => ({
+      url: `${siteUrl}${page.path === "/" ? "" : page.path}`,
       lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1,
-    },
-  ];
+      changeFrequency: page.changeFrequency,
+      priority: page.priority,
+    })
+  );
 
   // Only include categories that have at least one published content item
   const categoriesWithContent = categories.filter((cat) =>

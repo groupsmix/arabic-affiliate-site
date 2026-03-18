@@ -1,24 +1,33 @@
 import type { Metadata } from "next";
 import Shell from "@/components/Shell";
 import PageHeader from "@/components/PageHeader";
+import JsonLdBreadcrumb from "@/components/JsonLdBreadcrumb";
 import { getCategories } from "@/lib/queries";
+import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "شروط الاستخدام",
-  description: "شروط وأحكام استخدام موقع المحتوى",
+  title: siteConfig.pages.terms.title,
+  description: siteConfig.pages.terms.description,
+  alternates: { canonical: "/terms" },
   robots: { index: true, follow: true },
 };
 
 export default async function TermsPage() {
   const categories = await getCategories();
 
+  const jsonLdItems = [
+    { name: siteConfig.homeLabel, url: "/" },
+    { name: siteConfig.pages.terms.heading, url: "/terms" },
+  ];
+
   return (
     <Shell categories={categories}>
-      <PageHeader title="شروط الاستخدام" />
+      <JsonLdBreadcrumb items={jsonLdItems} />
+      <PageHeader title={siteConfig.pages.terms.heading} />
 
       <div className="prose prose-lg max-w-none" dir="rtl">
         <p>
-          باستخدامك لموقع <strong>موقع المحتوى</strong> فإنك توافق على الشروط
+          باستخدامك لموقع <strong>{siteConfig.name}</strong> فإنك توافق على الشروط
           والأحكام التالية.
         </p>
 
