@@ -221,8 +221,10 @@ export async function updateContent(
 export async function updateContentStatus(
   id: string,
   status: "draft" | "published"
-): Promise<{ success: boolean; errors?: string[] }> {
+): Promise<{ success: boolean; errors?: string[]; warnings?: string[] }> {
   await requireAdmin();
+
+  let warnings: string[] = [];
 
   if (status === "published") {
     const { data: content } = await supabaseAdmin
@@ -249,6 +251,7 @@ export async function updateContentStatus(
     if (!validation.valid) {
       return { success: false, errors: validation.errors };
     }
+    warnings = validation.warnings;
   }
 
   const { error } = await supabaseAdmin
@@ -274,14 +277,36 @@ export async function updateContentStatus(
     }
   }
 
-  return { success: true };
+  return { success: true, warnings };
 }
 
 export async function deleteContent(id: string): Promise<void> {
   await requireAdmin();
+
+  // Fetch slug and category before deletion for revalidation
+  const { data: content } = await supabaseAdmin
+    .from("content")
+    .select("slug, category:categories(slug)")
+    .eq("id", id)
+    .single();
+
+  // Clean up product links
+  await supabaseAdmin
+    .from("content_products")
+    .delete()
+    .eq("content_id", id);
+
   const { error } = await supabaseAdmin.from("content").delete().eq("id", id);
   if (error) throw error;
+
   revalidatePath("/");
+  if (content) {
+    revalidatePath("/content/" + content.slug);
+    const cat = content.category as unknown as { slug: string } | null;
+    if (cat) {
+      revalidatePath("/category/" + cat.slug);
+    }
+  }
 }
 
 // ---- Product Actions ----
@@ -368,11 +393,25 @@ export async function updateProduct(
     .eq("id", id);
 
   if (error) throw error;
+
+  // Revalidate all content pages that link to this product
+  await revalidateContentForProduct(id);
+
   return { success: true };
 }
 
 export async function deleteProduct(id: string): Promise<void> {
   await requireAdmin();
+
+  // Revalidate affected content pages before cleanup
+  await revalidateContentForProduct(id);
+
+  // Clean up product links
+  await supabaseAdmin
+    .from("content_products")
+    .delete()
+    .eq("product_id", id);
+
   const { error } = await supabaseAdmin
     .from("products")
     .delete()
@@ -433,6 +472,9 @@ export async function linkProduct(
     if (error.code === "23505") return; // already linked, ignore duplicate
     throw error;
   }
+
+  // Revalidate the content page to reflect the new product
+  await revalidateContentById(contentId);
 }
 
 export async function unlinkProduct(
@@ -446,6 +488,41 @@ export async function unlinkProduct(
     .eq("content_id", contentId)
     .eq("product_id", productId);
   if (error) throw error;
+
+  // Revalidate the content page to reflect the removed product
+  await revalidateContentById(contentId);
+}
+
+// ---- Revalidation Helpers ----
+
+async function revalidateContentById(contentId: string) {
+  const { data: content } = await supabaseAdmin
+    .from("content")
+    .select("slug, category:categories(slug)")
+    .eq("id", contentId)
+    .single();
+
+  if (content) {
+    revalidatePath("/");
+    revalidatePath("/content/" + content.slug);
+    const cat = content.category as unknown as { slug: string } | null;
+    if (cat) {
+      revalidatePath("/category/" + cat.slug);
+    }
+  }
+}
+
+async function revalidateContentForProduct(productId: string) {
+  const { data: links } = await supabaseAdmin
+    .from("content_products")
+    .select("content_id")
+    .eq("product_id", productId);
+
+  if (links && links.length > 0) {
+    for (const link of links) {
+      await revalidateContentById(link.content_id);
+    }
+  }
 }
 
 // ---- Category Actions ----

@@ -97,6 +97,7 @@ export default function ContentForm({
     if (!content) return;
     setLoading(true);
     setErrors([]);
+    setWarnings([]);
     try {
       const result = await updateContentStatus(content.id, newStatus);
       if (!result.success) {
@@ -104,6 +105,7 @@ export default function ContentForm({
         setLoading(false);
         return;
       }
+      if (result.warnings?.length) setWarnings(result.warnings);
       router.refresh();
     } catch {
       setErrors(["حدث خطأ غير متوقع"]);
