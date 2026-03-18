@@ -30,6 +30,10 @@ export async function generateMetadata({
     alternates: {
       canonical: `/category/${slug}`,
     },
+    openGraph: {
+      title: category.name,
+      description: `مقالات ومراجعات في تصنيف ${category.name}`,
+    },
   };
 }
 
