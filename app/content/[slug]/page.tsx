@@ -63,11 +63,11 @@ export default async function ContentPage({ params }: ContentPageProps) {
   jsonLdItems.push({ name: content.title, url: `/content/${slug}` });
 
   const hasProducts = content.products && content.products.length > 0;
-  const showProductsSidebar =
-    hasProducts &&
-    (content.type === "review" ||
-      content.type === "comparison" ||
-      content.type === "guide");
+  const isCommercial =
+    content.type === "review" ||
+    content.type === "comparison" ||
+    content.type === "guide";
+  const showProductsSidebar = hasProducts && isCommercial;
 
   return (
     <Shell categories={categories}>
@@ -75,10 +75,17 @@ export default async function ContentPage({ params }: ContentPageProps) {
       <Breadcrumb items={breadcrumbs} />
       <PageHeader title={content.title} description={content.excerpt} />
 
-      {hasProducts && (
-        <p className="text-sm text-foreground/50 bg-foreground/5 rounded p-3 mb-4">
-          يحتوي هذا المحتوى على روابط تسويقية. قد نحصل على عمولة عند الشراء من خلال هذه الروابط.
-        </p>
+      {(hasProducts || isCommercial) && (
+        <div className="text-sm bg-foreground/5 rounded p-3 mb-4 space-y-1">
+          <p className="text-foreground/50">
+            يحتوي هذا المحتوى على روابط تسويقية. قد نحصل على عمولة عند الشراء
+            من خلال هذه الروابط دون أي تكلفة إضافية عليك.
+          </p>
+          <p className="text-foreground/40 text-xs">
+            الأسعار المعروضة إرشادية وقد تتغير. التوفر والشحن قد يختلف حسب
+            موقعك. يُرجى التحقق من التاجر قبل الشراء.
+          </p>
+        </div>
       )}
 
       {showProductsSidebar ? (

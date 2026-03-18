@@ -24,7 +24,10 @@ export default function ProductCard({ product, contentSlug }: ProductCardProps) 
         <p className="text-sm text-foreground/60 mb-2">{product.description}</p>
       )}
       {product.price && (
-        <p className="text-sm font-bold mb-3">{product.price}</p>
+        <div className="mb-3">
+          <p className="text-sm font-bold">{product.price}</p>
+          <p className="text-xs text-foreground/40">السعر إرشادي وقد يتغير</p>
+        </div>
       )}
       {product.affiliate_url && (
         <AffiliateLink
