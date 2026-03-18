@@ -50,6 +50,24 @@ export async function getPublishedContentByCategory(
   return data ?? [];
 }
 
+export async function getRelatedContent(
+  categoryId: string | null,
+  excludeSlug: string,
+  limit = 4
+): Promise<Content[]> {
+  if (!categoryId) return [];
+  const { data, error } = await supabase
+    .from("content")
+    .select("*, category:categories(*)")
+    .eq("status", "published")
+    .eq("category_id", categoryId)
+    .neq("slug", excludeSlug)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) throw error;
+  return data ?? [];
+}
+
 export const getContentBySlug = cache(async function getContentBySlug(
   slug: string
 ): Promise<Content | null> {

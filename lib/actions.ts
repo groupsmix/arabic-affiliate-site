@@ -32,7 +32,7 @@ function validateContent(
   slug: string,
   body: string,
   type: string,
-  hasProducts: boolean
+  productCount: number
 ): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -41,8 +41,12 @@ function validateContent(
   if (!slug.trim()) errors.push("الرابط المختصر مطلوب");
   if (!body.trim()) errors.push("المحتوى مطلوب");
 
-  if (commercialTypes.has(type) && !hasProducts) {
-    warnings.push("صفحة تجارية بدون منتجات مرتبطة");
+  if (commercialTypes.has(type) && productCount === 0) {
+    errors.push("صفحة تجارية يجب أن تحتوي على منتج واحد على الأقل");
+  }
+
+  if (type === "comparison" && productCount < 2) {
+    errors.push("صفحة المقارنة يجب أن تحتوي على منتجين على الأقل");
   }
 
   return { valid: errors.length === 0, errors, warnings };
@@ -106,7 +110,7 @@ export async function createContent(formData: FormData): Promise<{
 
   if (!slug) slug = slugify(title);
 
-  const validation = validateContent(title, slug, body, type, false);
+  const validation = validateContent(title, slug, body, type, 0);
   if (!validation.valid) {
     return {
       success: false,
@@ -174,9 +178,9 @@ export async function updateContent(
     .from("content_products")
     .select("product_id")
     .eq("content_id", id);
-  const hasProducts = (links?.length ?? 0) > 0;
+  const productCount = links?.length ?? 0;
 
-  const validation = validateContent(title, slug, body, type, hasProducts);
+  const validation = validateContent(title, slug, body, type, productCount);
   if (!validation.valid) {
     return {
       success: false,
@@ -243,7 +247,7 @@ export async function updateContentStatus(
       content.slug,
       content.body,
       content.type,
-      (links?.length ?? 0) > 0
+      links?.length ?? 0
     );
 
     if (!validation.valid) {

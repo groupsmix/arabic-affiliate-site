@@ -6,7 +6,8 @@ import Breadcrumb from "@/components/Breadcrumb";
 import ContentBody from "@/components/ContentBody";
 import ProductCard from "@/components/ProductCard";
 import JsonLdBreadcrumb from "@/components/JsonLdBreadcrumb";
-import { getContentBySlug, getCategories } from "@/lib/queries";
+import ArticleCard from "@/components/ArticleCard";
+import { getContentBySlug, getCategories, getRelatedContent } from "@/lib/queries";
 import { siteConfig } from "@/config/site";
 import { commercialTypes } from "@/config/categories";
 
@@ -45,6 +46,8 @@ export default async function ContentPage({ params }: ContentPageProps) {
   ]);
 
   if (!content) notFound();
+
+  const related = await getRelatedContent(content.category_id, slug);
 
   const breadcrumbs = [];
   if (content.category) {
@@ -113,6 +116,17 @@ export default async function ContentPage({ params }: ContentPageProps) {
             </div>
           )}
         </>
+      )}
+
+      {related.length > 0 && (
+        <section className="mt-12 border-t border-foreground/10 pt-8">
+          <h2 className="font-semibold text-lg mb-4">مقالات ذات صلة</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {related.map((item) => (
+              <ArticleCard key={item.id} content={item} />
+            ))}
+          </div>
+        </section>
       )}
     </Shell>
   );
