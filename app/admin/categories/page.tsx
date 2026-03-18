@@ -1,5 +1,6 @@
 import { getAllCategories, createCategory, deleteCategory } from "@/lib/actions";
 import { revalidatePath } from "next/cache";
+import { adminLabels } from "@/config/site";
 
 export default async function AdminCategoriesPage() {
   const categories = await getAllCategories();
@@ -19,20 +20,20 @@ export default async function AdminCategoriesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">التصنيفات</h1>
+      <h1 className="text-2xl font-bold mb-6">{adminLabels.categories}</h1>
 
       <form action={handleCreate} className="flex gap-2 mb-6 max-w-md">
         <input
           type="text"
           name="name"
-          placeholder="اسم التصنيف"
+          placeholder={adminLabels.categoryNamePlaceholder}
           required
           className="flex-1 border border-foreground/20 rounded px-3 py-2 bg-background text-sm"
         />
         <input
           type="text"
           name="slug"
-          placeholder="الرابط (اختياري)"
+          placeholder={adminLabels.categorySlugPlaceholder}
           className="flex-1 border border-foreground/20 rounded px-3 py-2 bg-background text-sm"
           dir="ltr"
         />
@@ -40,20 +41,20 @@ export default async function AdminCategoriesPage() {
           type="submit"
           className="bg-foreground text-background px-4 py-2 rounded text-sm font-medium hover:opacity-80"
         >
-          إضافة
+          {adminLabels.addCategory}
         </button>
       </form>
 
       {categories.length === 0 ? (
-        <p className="text-foreground/50">لا توجد تصنيفات بعد.</p>
+        <p className="text-foreground/50">{adminLabels.noCategories}</p>
       ) : (
         <div className="border border-foreground/10 rounded-lg overflow-x-auto">
           <table className="w-full text-sm min-w-[400px]">
             <thead className="bg-foreground/5">
               <tr>
-                <th className="text-right px-4 py-3 font-medium">الاسم</th>
-                <th className="text-right px-4 py-3 font-medium">الرابط</th>
-                <th className="text-right px-4 py-3 font-medium">إجراء</th>
+                <th className="text-right px-4 py-3 font-medium">{adminLabels.colName}</th>
+                <th className="text-right px-4 py-3 font-medium">{adminLabels.colSlug}</th>
+                <th className="text-right px-4 py-3 font-medium">{adminLabels.colAction}</th>
               </tr>
             </thead>
             <tbody>
@@ -73,7 +74,7 @@ export default async function AdminCategoriesPage() {
                         type="submit"
                         className="text-red-600 hover:underline text-xs"
                       >
-                        حذف
+                        {adminLabels.deleteBtn}
                       </button>
                     </form>
                   </td>

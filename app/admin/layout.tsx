@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
+import { siteConfig, adminLabels } from "@/config/site";
 
 export const metadata: Metadata = {
   robots: {
@@ -20,30 +20,30 @@ export default function AdminLayout({
         <div className="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <Link href="/admin" className="text-xl font-bold">
-              لوحة التحكم
+              {adminLabels.dashboard}
             </Link>
             <nav className="flex gap-3 text-sm">
               <Link href="/admin" className="hover:underline">
-                المحتوى
+                {adminLabels.content}
               </Link>
               <Link href="/admin/products" className="hover:underline">
-                المنتجات
+                {adminLabels.products}
               </Link>
               <Link href="/admin/categories" className="hover:underline">
-                التصنيفات
+                {adminLabels.categories}
               </Link>
             </nav>
           </div>
           <div className="flex items-center gap-3 text-sm">
             <Link href="/" className="hover:underline text-foreground/50">
-              الموقع
+              {adminLabels.viewSite}
             </Link>
             <form action="/api/admin/logout" method="POST">
               <button
                 type="submit"
                 className="text-red-600 hover:underline text-sm"
               >
-                خروج
+                {adminLabels.logout}
               </button>
             </form>
           </div>

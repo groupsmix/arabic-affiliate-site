@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import ProductForm from "@/components/admin/ProductForm";
 import { getProductById } from "@/lib/actions";
+import { adminLabels } from "@/config/site";
 
 interface EditProductPageProps {
   params: Promise<{ id: string }>;
@@ -16,7 +17,7 @@ export default async function EditProductPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">تعديل المنتج</h1>
+      <h1 className="text-2xl font-bold mb-6">{adminLabels.editProduct}</h1>
       <ProductForm product={product} />
     </div>
   );

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getAllContent } from "@/lib/actions";
 import { contentTypeLabels, statusLabels } from "@/config/categories";
-import { siteConfig } from "@/config/site";
+import { siteConfig, adminLabels } from "@/config/site";
 
 export default async function AdminContentListPage() {
   const content = await getAllContent();
@@ -9,26 +9,26 @@ export default async function AdminContentListPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">المحتوى</h1>
+        <h1 className="text-2xl font-bold">{adminLabels.content}</h1>
         <Link
           href="/admin/content/new"
           className="bg-foreground text-background px-4 py-2 rounded text-sm font-medium hover:opacity-80"
         >
-          إنشاء محتوى جديد
+          {adminLabels.createContentBtn}
         </Link>
       </div>
 
       {content.length === 0 ? (
-        <p className="text-foreground/50">لا يوجد محتوى بعد.</p>
+        <p className="text-foreground/50">{adminLabels.noContent}</p>
       ) : (
         <div className="border border-foreground/10 rounded-lg overflow-x-auto">
           <table className="w-full text-sm min-w-[500px]">
             <thead className="bg-foreground/5">
               <tr>
-                <th className="text-right px-4 py-3 font-medium">العنوان</th>
-                <th className="text-right px-4 py-3 font-medium">النوع</th>
-                <th className="text-right px-4 py-3 font-medium">الحالة</th>
-                <th className="text-right px-4 py-3 font-medium">التاريخ</th>
+                <th className="text-right px-4 py-3 font-medium">{adminLabels.colTitle}</th>
+                <th className="text-right px-4 py-3 font-medium">{adminLabels.colType}</th>
+                <th className="text-right px-4 py-3 font-medium">{adminLabels.colStatus}</th>
+                <th className="text-right px-4 py-3 font-medium">{adminLabels.colDate}</th>
               </tr>
             </thead>
             <tbody>

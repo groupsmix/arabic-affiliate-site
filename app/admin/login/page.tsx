@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { siteConfig, adminLabels } from "@/config/site";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -24,21 +25,21 @@ export default function AdminLoginPage() {
       if (res.ok) {
         router.push("/admin");
       } else {
-        setError("كلمة المرور غير صحيحة");
+        setError(adminLabels.loginWrongPassword);
       }
     } catch {
-      setError("حدث خطأ في الاتصال");
+      setError(adminLabels.loginConnectionError);
     }
     setLoading(false);
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center" dir="rtl">
+    <div className="min-h-screen flex items-center justify-center" dir={siteConfig.direction}>
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-sm border border-foreground/10 rounded-lg p-6"
       >
-        <h1 className="text-2xl font-bold mb-6 text-center">تسجيل الدخول</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center">{adminLabels.loginTitle}</h1>
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 p-3 rounded text-sm mb-4">
@@ -48,7 +49,7 @@ export default function AdminLoginPage() {
 
         <div className="mb-4">
           <label className="block text-sm font-medium mb-1">
-            كلمة المرور
+            {adminLabels.loginPassword}
           </label>
           <input
             type="password"
@@ -65,7 +66,7 @@ export default function AdminLoginPage() {
           disabled={loading}
           className="w-full bg-foreground text-background px-4 py-2 rounded font-medium hover:opacity-80 disabled:opacity-50"
         >
-          {loading ? "جاري الدخول..." : "دخول"}
+          {loading ? adminLabels.loginLoading : adminLabels.loginSubmit}
         </button>
       </form>
     </div>

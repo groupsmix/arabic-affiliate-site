@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAllProducts } from "@/lib/actions";
+import { adminLabels } from "@/config/site";
 
 export default async function AdminProductsPage() {
   const products = await getAllProducts();
@@ -7,26 +8,26 @@ export default async function AdminProductsPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">المنتجات</h1>
+        <h1 className="text-2xl font-bold">{adminLabels.products}</h1>
         <Link
           href="/admin/products/new"
           className="bg-foreground text-background px-4 py-2 rounded text-sm font-medium hover:opacity-80"
         >
-          إضافة منتج جديد
+          {adminLabels.addProductBtn}
         </Link>
       </div>
 
       {products.length === 0 ? (
-        <p className="text-foreground/50">لا توجد منتجات بعد.</p>
+        <p className="text-foreground/50">{adminLabels.noProducts}</p>
       ) : (
         <div className="border border-foreground/10 rounded-lg overflow-x-auto">
           <table className="w-full text-sm min-w-[500px]">
             <thead className="bg-foreground/5">
               <tr>
-                <th className="text-right px-4 py-3 font-medium">الاسم</th>
-                <th className="text-right px-4 py-3 font-medium">السعر</th>
+                <th className="text-right px-4 py-3 font-medium">{adminLabels.colName}</th>
+                <th className="text-right px-4 py-3 font-medium">{adminLabels.colPrice}</th>
                 <th className="text-right px-4 py-3 font-medium">
-                  رابط الأفلييت
+                  {adminLabels.colAffiliateUrl}
                 </th>
               </tr>
             </thead>
