@@ -163,6 +163,14 @@ export async function updateContent(
 
   if (!slug) slug = slugify(title);
 
+  // Fetch old slug before update so we can revalidate it if it changed
+  const { data: existing } = await supabaseAdmin
+    .from("content")
+    .select("slug")
+    .eq("id", id)
+    .single();
+  const oldSlug = existing?.slug;
+
   // Check if content has linked products
   const { data: links } = await supabaseAdmin
     .from("content_products")
@@ -204,6 +212,9 @@ export async function updateContent(
 
   revalidatePath("/");
   revalidatePath("/content/" + slug);
+  if (oldSlug && oldSlug !== slug.trim()) {
+    revalidatePath("/content/" + oldSlug);
+  }
   return { success: true, warnings: validation.warnings };
 }
 
@@ -418,7 +429,10 @@ export async function linkProduct(
   const { error } = await supabaseAdmin
     .from("content_products")
     .insert({ content_id: contentId, product_id: productId });
-  if (error) throw error;
+  if (error) {
+    if (error.code === "23505") return; // already linked, ignore duplicate
+    throw error;
+  }
 }
 
 export async function unlinkProduct(

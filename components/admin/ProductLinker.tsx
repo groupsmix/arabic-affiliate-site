@@ -24,6 +24,7 @@ export default function ProductLinker({
   const [available, setAvailable] = useState<Product[]>(initialAvailable);
   const [selectedId, setSelectedId] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   async function refreshProducts() {
     try {
@@ -34,30 +35,32 @@ export default function ProductLinker({
       setLinked(l);
       setAvailable(a);
     } catch {
-      // silent fail
+      setError("فشل تحديث قائمة المنتجات");
     }
   }
 
   async function handleLink() {
     if (!selectedId) return;
     setLoading(true);
+    setError("");
     try {
       await linkProduct(contentId, selectedId);
       setSelectedId("");
       await refreshProducts();
     } catch {
-      // silent fail
+      setError("فشل ربط المنتج");
     }
     setLoading(false);
   }
 
   async function handleUnlink(productId: string) {
     setLoading(true);
+    setError("");
     try {
       await unlinkProduct(contentId, productId);
       await refreshProducts();
     } catch {
-      // silent fail
+      setError("فشل إزالة المنتج");
     }
     setLoading(false);
   }
@@ -65,6 +68,12 @@ export default function ProductLinker({
   return (
     <div className="border border-foreground/10 rounded-lg p-4">
       <h3 className="font-semibold mb-3">المنتجات المرتبطة</h3>
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 p-2 rounded text-sm mb-3">
+          {error}
+        </div>
+      )}
 
       {linked.length === 0 && (
         <p className="text-sm text-foreground/50 mb-3">لا توجد منتجات مرتبطة</p>
