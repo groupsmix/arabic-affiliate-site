@@ -185,7 +185,7 @@ export default function ContentForm({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-1">النوع</label>
           <select

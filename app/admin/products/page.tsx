@@ -19,8 +19,8 @@ export default async function AdminProductsPage() {
       {products.length === 0 ? (
         <p className="text-foreground/50">لا توجد منتجات بعد.</p>
       ) : (
-        <div className="border border-foreground/10 rounded-lg overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="border border-foreground/10 rounded-lg overflow-x-auto">
+          <table className="w-full text-sm min-w-[500px]">
             <thead className="bg-foreground/5">
               <tr>
                 <th className="text-right px-4 py-3 font-medium">الاسم</th>

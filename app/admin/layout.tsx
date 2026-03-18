@@ -16,8 +16,8 @@ export default function AdminLayout({
   return (
     <div className="min-h-screen flex flex-col" dir="rtl">
       <header className="border-b border-foreground/10 bg-background">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4">
             <Link href="/admin" className="text-xl font-bold">
               لوحة التحكم
             </Link>
