@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Category } from "@/lib/types";
 import { siteConfig } from "@/config/site";
+import { getNavCategories, getCategoryLabel } from "@/config/categories";
 
 interface ShellProps {
   children: React.ReactNode;
@@ -16,13 +17,13 @@ export default function Shell({ children, categories = [] }: ShellProps) {
             {siteConfig.name}
           </Link>
           <nav className="flex flex-wrap gap-2 sm:gap-4 text-sm">
-            {categories.map((cat) => (
+            {getNavCategories(categories).map((cat) => (
               <Link
                 key={cat.id}
                 href={`/category/${cat.slug}`}
                 className="hover:underline py-1"
               >
-                {cat.name}
+                {getCategoryLabel(cat)}
               </Link>
             ))}
           </nav>

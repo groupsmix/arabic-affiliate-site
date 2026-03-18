@@ -11,7 +11,7 @@ import {
   getCategories,
 } from "@/lib/queries";
 import { siteConfig } from "@/config/site";
-import { seoConfig } from "@/config/seo";
+import { getCategoryLabel, getCategoryDescription } from "@/config/categories";
 
 export const revalidate = 60;
 
@@ -26,15 +26,18 @@ export async function generateMetadata({
   const category = await getCategoryBySlug(slug);
   if (!category) return {};
 
+  const label = getCategoryLabel(category);
+  const desc = getCategoryDescription(category);
+
   return {
-    title: category.name,
-    description: seoConfig.categoryDescriptionTemplate.replace("%s", category.name),
+    title: label,
+    description: desc,
     alternates: {
       canonical: `/category/${slug}`,
     },
     openGraph: {
-      title: category.name,
-      description: seoConfig.categoryDescriptionTemplate.replace("%s", category.name),
+      title: label,
+      description: desc,
     },
   };
 }
@@ -51,14 +54,14 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   const jsonLdItems = [
     { name: siteConfig.homeLabel, url: "/" },
-    { name: category.name, url: `/category/${slug}` },
+    { name: getCategoryLabel(category), url: `/category/${slug}` },
   ];
 
   return (
     <Shell categories={categories}>
       <JsonLdBreadcrumb items={jsonLdItems} />
-      <Breadcrumb items={[{ label: category.name }]} />
-      <PageHeader title={category.name} />
+      <Breadcrumb items={[{ label: getCategoryLabel(category) }]} />
+      <PageHeader title={getCategoryLabel(category)} />
       {articles.length === 0 ? (
         <p className="text-foreground/50">{siteConfig.noCategoryArticlesText}</p>
       ) : (

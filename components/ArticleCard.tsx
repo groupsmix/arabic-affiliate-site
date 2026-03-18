@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Content } from "@/lib/types";
-import { contentTypeLabels } from "@/config/categories";
+import { contentTypeLabels, getCategoryLabel } from "@/config/categories";
 import { siteConfig } from "@/config/site";
 
 interface ArticleCardProps {
@@ -16,7 +16,7 @@ export default function ArticleCard({ content }: ArticleCardProps) {
             href={`/category/${content.category.slug}`}
             className="hover:underline"
           >
-            {content.category.name}
+            {getCategoryLabel(content.category)}
           </Link>
         )}
         {content.category && <span>&middot;</span>}

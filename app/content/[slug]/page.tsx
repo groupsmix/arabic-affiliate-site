@@ -9,7 +9,7 @@ import JsonLdBreadcrumb from "@/components/JsonLdBreadcrumb";
 import ArticleCard from "@/components/ArticleCard";
 import { getContentBySlug, getCategories, getRelatedContent } from "@/lib/queries";
 import { siteConfig } from "@/config/site";
-import { commercialTypes } from "@/config/categories";
+import { commercialTypes, getCategoryLabel } from "@/config/categories";
 
 export const revalidate = 60;
 
@@ -52,7 +52,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
   const breadcrumbs = [];
   if (content.category) {
     breadcrumbs.push({
-      label: content.category.name,
+      label: getCategoryLabel(content.category),
       href: `/category/${content.category.slug}`,
     });
   }
@@ -61,7 +61,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
   const jsonLdItems = [{ name: siteConfig.homeLabel, url: "/" }];
   if (content.category) {
     jsonLdItems.push({
-      name: content.category.name,
+      name: getCategoryLabel(content.category),
       url: `/category/${content.category.slug}`,
     });
   }
