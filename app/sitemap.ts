@@ -18,7 +18,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const categoryPages: MetadataRoute.Sitemap = categories.map((cat) => ({
+  // Only include categories that have at least one published content item
+  const categoriesWithContent = categories.filter((cat) =>
+    content.some((item) => item.category_id === cat.id)
+  );
+
+  const categoryPages: MetadataRoute.Sitemap = categoriesWithContent.map((cat) => ({
     url: `${siteUrl}/category/${cat.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
