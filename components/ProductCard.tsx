@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Product } from "@/lib/types";
 import AffiliateLink from "@/components/AffiliateLink";
 
@@ -10,12 +11,13 @@ export default function ProductCard({ product, contentSlug }: ProductCardProps) 
   return (
     <div className="border border-foreground/10 rounded-lg p-4">
       {product.image_url && (
-        <div className="mb-3">
-          <img
+        <div className="mb-3 relative h-40">
+          <Image
             src={product.image_url}
             alt={product.name}
-            className="w-full h-40 object-contain rounded"
-            loading="lazy"
+            fill
+            className="object-contain rounded"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         </div>
       )}

@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { supabase } from "./supabase";
 import type { Category, Content } from "./types";
 
@@ -12,7 +13,7 @@ export async function getCategories(): Promise<Category[]> {
   return data ?? [];
 }
 
-export async function getCategoryBySlug(
+export const getCategoryBySlug = cache(async function getCategoryBySlug(
   slug: string
 ): Promise<Category | null> {
   const { data, error } = await supabase
@@ -22,7 +23,7 @@ export async function getCategoryBySlug(
     .single();
   if (error && error.code !== "PGRST116") throw error;
   return data ?? null;
-}
+});
 
 export async function getPublishedContent(): Promise<Content[]> {
   const { data, error } = await supabase
@@ -49,7 +50,7 @@ export async function getPublishedContentByCategory(
   return data ?? [];
 }
 
-export async function getContentBySlug(
+export const getContentBySlug = cache(async function getContentBySlug(
   slug: string
 ): Promise<Content | null> {
   const { data, error } = await supabase
@@ -79,4 +80,4 @@ export async function getContentBySlug(
   }
 
   return data;
-}
+});
