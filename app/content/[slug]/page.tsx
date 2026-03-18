@@ -9,7 +9,7 @@ import JsonLdBreadcrumb from "@/components/JsonLdBreadcrumb";
 import ArticleCard from "@/components/ArticleCard";
 import { getContentBySlug, getCategories, getRelatedContent } from "@/lib/queries";
 import { siteConfig } from "@/config/site";
-import { commercialTypes } from "@/config/categories";
+import { commercialTypes, contentTypeLayouts } from "@/config/categories";
 
 export const revalidate = 60;
 
@@ -69,7 +69,8 @@ export default async function ContentPage({ params }: ContentPageProps) {
 
   const hasProducts = content.products && content.products.length > 0;
   const isCommercial = commercialTypes.has(content.type);
-  const showProductsSidebar = hasProducts && isCommercial;
+  const layout = contentTypeLayouts[content.type] ?? "standard";
+  const showProductsSidebar = hasProducts && layout === "sidebar";
 
   return (
     <Shell categories={categories}>

@@ -7,7 +7,7 @@ import { verifyToken } from "./auth";
 import { sanitizeHtml, stripHtml } from "./sanitize";
 import { slugify } from "./slugify";
 import type { Content, Product, Category } from "./types";
-import { commercialTypes } from "@/config/categories";
+import { commercialTypes, contentTypeMinProducts } from "@/config/categories";
 
 // ---- Auth helper ----
 
@@ -41,12 +41,16 @@ function validateContent(
   if (!slug.trim()) errors.push("الرابط المختصر مطلوب");
   if (!body.trim()) errors.push("المحتوى مطلوب");
 
-  if (commercialTypes.has(type) && productCount === 0) {
+  const minProducts = contentTypeMinProducts[type] ?? 0;
+
+  if (commercialTypes.has(type) && productCount === 0 && minProducts === 0) {
     errors.push("صفحة تجارية يجب أن تحتوي على منتج واحد على الأقل");
   }
 
-  if (type === "comparison" && productCount < 2) {
-    errors.push("صفحة المقارنة يجب أن تحتوي على منتجين على الأقل");
+  if (minProducts > 0 && productCount < minProducts) {
+    errors.push(
+      `هذا النوع يتطلب ${minProducts} منتجات على الأقل`
+    );
   }
 
   return { valid: errors.length === 0, errors, warnings };
