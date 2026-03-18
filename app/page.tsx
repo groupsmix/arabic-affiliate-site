@@ -15,7 +15,7 @@ export default async function HomePage() {
   return (
     <Shell categories={categories}>
       <PageHeader
-        title="أحدث المقالات"
+        title={siteConfig.homepageHeading}
         description={siteConfig.description}
       />
       {articles.length === 0 ? (

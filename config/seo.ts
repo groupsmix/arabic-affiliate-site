@@ -33,7 +33,7 @@ export const seoConfig = {
   },
 
   /** Category page meta description template (use %s for category name) */
-  categoryDescriptionTemplate: "مقالات ومراجعات في تصنيف %s",
+  categoryDescriptionTemplate: siteConfig.categoryDescriptionTemplate,
 } as const;
 
 export type SeoConfig = typeof seoConfig;

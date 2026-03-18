@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { siteConfig } from "@/config/site";
 
 export default function GlobalError({
   error,
@@ -16,18 +17,18 @@ export default function GlobalError({
   return (
     <div
       className="min-h-screen flex items-center justify-center p-4"
-      dir="rtl"
+      dir={siteConfig.direction}
     >
       <div className="text-center">
-        <h2 className="text-2xl font-bold mb-4">حدث خطأ</h2>
+        <h2 className="text-2xl font-bold mb-4">{siteConfig.errorHeading}</h2>
         <p className="text-foreground/60 mb-6">
-          نعتذر عن هذا الخطأ. يرجى المحاولة مرة أخرى.
+          {siteConfig.errorMessage}
         </p>
         <button
           onClick={reset}
           className="bg-foreground text-background px-6 py-2 rounded font-medium hover:opacity-80"
         >
-          إعادة المحاولة
+          {siteConfig.errorRetryLabel}
         </button>
       </div>
     </div>
