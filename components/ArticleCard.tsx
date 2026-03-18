@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Content } from "@/lib/types";
 import { contentTypeLabels } from "@/config/categories";
+import { siteConfig } from "@/config/site";
 
 interface ArticleCardProps {
   content: Content;
@@ -32,7 +33,7 @@ export default function ArticleCard({ content }: ArticleCardProps) {
         </p>
       )}
       <div className="mt-3 text-xs text-foreground/40">
-        {new Date(content.created_at).toLocaleDateString("ar")}
+        {new Date(content.created_at).toLocaleDateString(siteConfig.language)}
       </div>
     </article>
   );

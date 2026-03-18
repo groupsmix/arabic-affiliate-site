@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getPublishedContent, getCategories } from "@/lib/queries";
+import { commercialTypes } from "@/config/categories";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://example.com";
@@ -34,7 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${siteUrl}/content/${item.slug}`,
     lastModified: new Date(item.updated_at),
     changeFrequency: "weekly" as const,
-    priority: item.type === "article" ? 0.6 : 0.9,
+    priority: commercialTypes.has(item.type) ? 0.9 : 0.6,
   }));
 
   return [...staticPages, ...categoryPages, ...contentPages];

@@ -5,13 +5,15 @@ export interface Category {
   created_at: string;
 }
 
+import type { ContentTypeValue } from "@/config/categories";
+
 export interface Content {
   id: string;
   title: string;
   slug: string;
   body: string;
   excerpt: string;
-  type: "article" | "review" | "comparison" | "guide";
+  type: ContentTypeValue;
   status: "draft" | "published";
   category_id: string | null;
   created_at: string;
