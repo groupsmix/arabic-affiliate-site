@@ -1,9 +1,22 @@
+/**
+ * Site configuration — the single "edit this first" file for each niche.
+ *
+ * When launching a new affiliate site, update the values below to match
+ * your niche, brand, and language. Every public-facing string on the site
+ * is controlled from here.
+ *
+ * Examples of niches this starter supports out of the box:
+ *   home organization · pets · fashion accessories · beauty tools ·
+ *   small electronics · kitchen gadgets · fitness gear
+ */
 export const siteConfig = {
-  /** Display name shown in header, footer, metadata */
-  name: "موقع المحتوى",
+  // ── Brand & identity ──────────────────────────────────────────
 
-  /** Default meta description for the site */
-  description: "موقع محتوى عربي - مراجعات ومقارنات وأدلة شراء",
+  /** Display name shown in header, footer, metadata — REPLACE with your brand */
+  name: "اسم الموقع",
+
+  /** Default meta description — REPLACE with your niche pitch */
+  description: "مراجعات ومقارنات وأدلة شراء موثوقة تساعدك على اختيار الأفضل",
 
   /** BCP-47 language tag for the <html> element */
   language: "ar",
@@ -14,29 +27,38 @@ export const siteConfig = {
   /** OpenGraph locale (e.g. "ar_SA", "en_US") */
   locale: "ar_SA",
 
-  /** Short label for the niche this site covers */
-  niche: "محتوى عربي",
+  /** Short label for the niche this site covers — REPLACE with your niche */
+  niche: "اسم التخصص",
 
-  /** Contact email displayed on the About page */
+  /** Contact email displayed on the About page — REPLACE with real email */
   contactEmail: "contact@example.com",
 
-  /** Affiliate disclosure shown in content pages and footer */
+  // ── Affiliate & trust copy ────────────────────────────────────
+
+  /** Affiliate disclosure shown in footer (site-wide) */
   affiliateDisclosure:
     "يحتوي هذا الموقع على روابط تسويقية. قد نحصل على عمولة عند الشراء من خلالها دون أي تكلفة إضافية عليك.",
 
   /** Shorter disclosure for content-page banners */
   contentDisclosure:
-    "يحتوي هذا المحتوى على روابط تسويقية. قد نحصل على عمولة عند الشراء من خلال هذه الروابط دون أي تكلفة إضافية عليك.",
+    "قد يحتوي هذا المحتوى على روابط تسويقية. نحصل أحياناً على عمولة بسيطة عند الشراء من خلالها — دون أي تكلفة إضافية عليك.",
 
   /** Price disclaimer shown next to product prices */
-  priceDisclaimer: "السعر إرشادي وقد يتغير",
+  priceDisclaimer: "السعر تقريبي وقد يتغير",
 
   /** Shipping/availability disclaimer in content pages */
   availabilityDisclaimer:
-    "الأسعار المعروضة إرشادية وقد تتغير. التوفر والشحن قد يختلف حسب موقعك. يُرجى التحقق من التاجر قبل الشراء.",
+    "الأسعار المعروضة تقريبية وقد تتغير. التوفر والشحن قد يختلف حسب موقعك. يُرجى التحقق من التاجر قبل الشراء.",
+
+  // ── CTA & product copy ────────────────────────────────────────
 
   /** CTA text for affiliate product buttons */
-  buyButtonLabel: "اشتري الآن",
+  buyButtonLabel: "عرض المنتج",
+
+  /** Label for the "Products" sidebar/section heading */
+  productsHeading: "المنتجات المقترحة",
+
+  // ── Navigation ────────────────────────────────────────────────
 
   /** Navigation links rendered in the footer */
   footerLinks: [
@@ -48,27 +70,28 @@ export const siteConfig = {
   /** Label used for the home breadcrumb / nav root */
   homeLabel: "الرئيسية",
 
-  /** Label for the "Products" sidebar heading */
-  productsHeading: "المنتجات",
+  // ── Page copy ─────────────────────────────────────────────────
+
+  /** Homepage main heading */
+  homepageHeading: "أحدث المقالات",
+
+  /** Homepage subtitle (shown below heading) — uses `description` by default */
+
+  /** Related-content section heading on content pages */
+  relatedContentHeading: "قد يعجبك أيضاً",
+
+  /** Category page meta description template (%s = category name) */
+  categoryDescriptionTemplate: "مقالات ومراجعات وأدلة شراء في تصنيف %s",
+
+  // ── Empty states ──────────────────────────────────────────────
 
   /** Empty-state text when no articles exist */
   noArticlesText: "لا توجد مقالات منشورة حالياً.",
 
   /** Empty-state text when a category has no articles */
-  noCategoryArticlesText: "لا توجد مقالات في هذا التصنيف.",
+  noCategoryArticlesText: "لا توجد مقالات في هذا التصنيف بعد.",
 
-  // ── Page-level UI strings ──────────────────────────────────
-
-  /** Homepage main heading */
-  homepageHeading: "أحدث المقالات",
-
-  /** Related-content section heading on content pages */
-  relatedContentHeading: "مقالات ذات صلة",
-
-  /** Category page meta description template (%s = category name) */
-  categoryDescriptionTemplate: "مقالات ومراجعات في تصنيف %s",
-
-  // ── Error / Not-Found page strings ─────────────────────────
+  // ── Error / Not-Found page strings ────────────────────────────
 
   /** 404 page message */
   notFoundMessage: "الصفحة التي تبحث عنها غير موجودة.",
