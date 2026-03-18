@@ -1,36 +1,198 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arabic Affiliate Content Starter
+
+Minimal, config-driven Arabic affiliate content site built with **Next.js 16**, **Tailwind CSS 4**, and **Supabase**.
+
+Designed to be forked and adapted to any product-review niche (home organization, pets, fashion accessories, beauty tools, kitchen gadgets, fitness gear, etc.) by changing config and copy — not code architecture.
+
+## Tech Stack
+
+- **Framework:** Next.js 16 (App Router, Server Components)
+- **Styling:** Tailwind CSS 4 + `@tailwindcss/typography`
+- **Database:** Supabase (Postgres + Row Level Security)
+- **Analytics:** Google Analytics 4 (optional)
+- **Language:** TypeScript, RTL-first
+
+## Project Structure
+
+```
+app/
+  layout.tsx            # Root layout (metadata, analytics, direction)
+  page.tsx              # Homepage (article listing)
+  content/[slug]/       # Content pages (articles, reviews, comparisons, guides)
+  category/[slug]/      # Category listing pages
+  about/                # About page
+  privacy/              # Privacy policy
+  terms/                # Terms of use
+  admin/                # Admin panel (content, products, categories CRUD)
+  api/                  # API routes (auth, affiliate click tracking)
+  robots.ts             # robots.txt (config-driven)
+  sitemap.ts            # sitemap.xml (config-driven)
+
+components/
+  Shell.tsx             # Site chrome (header, nav, footer, disclosure)
+  Breadcrumb.tsx        # Visual breadcrumb nav
+  JsonLdBreadcrumb.tsx  # Breadcrumb structured data (JSON-LD)
+  ArticleCard.tsx       # Content listing card
+  ProductCard.tsx       # Product card with affiliate link
+  AffiliateLink.tsx     # Tracked affiliate link (nofollow, sponsored)
+  ContentBody.tsx       # Sanitized HTML body renderer
+  PageHeader.tsx        # Page title + description header
+  GoogleAnalytics.tsx   # GA4 script loader
+  WebVitals.tsx         # Core Web Vitals reporter
+  admin/                # Admin-only form components
+
+config/
+  site.ts               # Brand, copy, disclosure text, page metadata
+  seo.ts                # SEO defaults, robots, sitemap, canonical base
+  categories.ts         # Content types, layouts, validation rules
+
+lib/
+  queries.ts            # Supabase read queries
+  actions.ts            # Server actions (CRUD)
+  types.ts              # Shared TypeScript types
+  auth.ts               # Admin auth (token generation)
+  analytics.ts          # Affiliate click tracking
+  sanitize.ts           # HTML sanitization
+  slugify.ts            # Arabic-safe slug generation
+  supabase.ts           # Supabase client (browser)
+  supabase-server.ts    # Supabase client (server)
+
+supabase/
+  schema.sql            # Database schema (run once in Supabase SQL Editor)
+```
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone and install
+
+```bash
+git clone <your-fork-url>
+cd arabic-affiliate-site
+npm install
+```
+
+### 2. Set up Supabase
+
+1. Create a project at [supabase.com](https://supabase.com)
+2. Run `supabase/schema.sql` in the SQL Editor
+3. Copy `.env.local.example` to `.env.local` and fill in your keys:
+
+```bash
+cp .env.local.example .env.local
+```
+
+### 3. Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Admin panel is at `/admin/login` (password set via `ADMIN_PASSWORD` env var).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## How to Launch a New Niche from This Starter
 
-To learn more about Next.js, take a look at the following resources:
+### Step 1 — Update site config
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Edit **`config/site.ts`** — this is the single "edit this first" file:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Field | What to change |
+|---|---|
+| `name` | Your brand / site name |
+| `description` | One-line niche pitch (used as default meta description) |
+| `niche` | Short niche label |
+| `contactEmail` | Real contact email |
+| `language` / `direction` / `locale` | Keep `ar` / `rtl` / `ar_SA` for Arabic, or change for other languages |
+| `affiliateDisclosure` | Footer affiliate disclosure text |
+| `contentDisclosure` | In-content affiliate disclosure banner |
+| `priceDisclaimer` | Price disclaimer shown on product cards |
+| `availabilityDisclaimer` | Shipping/availability disclaimer |
+| `buyButtonLabel` | CTA text on affiliate buttons |
+| `pages.about` / `pages.privacy` / `pages.terms` | Title, description, and heading for each legal page |
+| `footerLinks` | Footer navigation (add or remove pages) |
+| All other labels | Homepage heading, empty states, error messages, etc. |
 
-## Deploy on Vercel
+### Step 2 — Update SEO config
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Edit **`config/seo.ts`** (most values derive from `site.ts` automatically):
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `robotsDisallow` — paths blocked from crawlers (default: `/admin/`, `/api/`)
+- `sitemapStaticPages` — static pages included in sitemap with priority/frequency
+
+Set your production domain in `.env.local`:
+```
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+```
+
+### Step 3 — Update content types and categories
+
+Edit **`config/categories.ts`**:
+
+- Add/remove content types (e.g. `review`, `comparison`, `guide`, `article`)
+- Set which types are `commercial` (shows affiliate disclosures + product sidebar)
+- Set layout per type (`sidebar` or `standard`)
+- Set minimum product requirements per type
+
+If you add or remove content type values, also update the `CHECK` constraint in `supabase/schema.sql`.
+
+### Step 4 — Seed content and product data
+
+Using the admin panel (`/admin`):
+
+1. **Create categories** — e.g. "Blenders", "Coffee Makers", "Air Fryers"
+2. **Add products** — name, affiliate URL, image, price, merchant
+3. **Write content** — articles, reviews, comparisons, buying guides
+4. **Link products to content** — via the product linker in the content editor
+
+### Step 5 — Review legal and trust pages
+
+These pages have **config-driven metadata and headings** but their **body copy requires manual editing** for each niche:
+
+| Page | File | What to edit |
+|---|---|---|
+| About | `app/about/page.tsx` | Mission statement, "how we work" prose |
+| Privacy | `app/privacy/page.tsx` | Data collection details, cookie descriptions |
+| Terms | `app/terms/page.tsx` | Disclaimer scope, IP terms, liability |
+
+The site name (`siteConfig.name`), contact email (`siteConfig.contactEmail`), and disclosure text (`siteConfig.contentDisclosure`) are already injected dynamically — you only need to edit the niche-specific prose.
+
+### Step 6 — Deploy
+
+Set all env vars from `.env.local.example` on your hosting platform, then deploy:
+
+```bash
+npm run build
+```
+
+Works with Vercel, Netlify, or any Node.js hosting.
+
+---
+
+## What Is Intentionally Not Included
+
+| Feature | Reason |
+|---|---|
+| i18n / multi-language | Adds complexity; change `config/site.ts` labels for a single language |
+| Legal CMS / page builder | Legal pages are static TSX; edit directly per niche |
+| Multi-tenant / multi-site | This is a single-site starter; fork per niche |
+| User accounts / comments | Out of scope for an affiliate content site |
+| Payment processing | Affiliate model only — no direct commerce |
+| Email collection / newsletter | Add separately if needed |
+| Image optimization CDN | Uses Next.js Image with remote patterns; add a CDN if needed |
+| Automated content generation | Content is created manually via the admin panel |
+| A/B testing | Add separately if needed |
+| Advanced analytics dashboard | Uses GA4; affiliate clicks are tracked in Supabase |
+
+---
+
+## Scripts
+
+```bash
+npm run dev      # Start dev server
+npm run build    # Production build
+npm run start    # Start production server
+npm run lint     # Run ESLint
+```
