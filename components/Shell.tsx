@@ -33,8 +33,23 @@ export default function Shell({ children, categories = [] }: ShellProps) {
       </main>
 
       <footer className="border-t border-foreground/10 py-6 text-center text-sm text-foreground/50">
-        <div className="max-w-5xl mx-auto px-4">
-          &copy; {new Date().getFullYear()} موقع المحتوى
+        <div className="max-w-5xl mx-auto px-4 space-y-2">
+          <nav className="flex justify-center gap-4">
+            <Link href="/about" className="hover:underline">
+              من نحن
+            </Link>
+            <Link href="/privacy" className="hover:underline">
+              سياسة الخصوصية
+            </Link>
+            <Link href="/terms" className="hover:underline">
+              شروط الاستخدام
+            </Link>
+          </nav>
+          <p>&copy; {new Date().getFullYear()} موقع المحتوى</p>
+          <p className="text-xs text-foreground/30">
+            يحتوي الموقع على روابط تسويقية. قد نحصل على عمولة عند الشراء من
+            خلالها دون أي تكلفة إضافية عليك.
+          </p>
         </div>
       </footer>
     </div>
