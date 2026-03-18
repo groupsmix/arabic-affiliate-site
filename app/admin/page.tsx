@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAllContent } from "@/lib/actions";
 import { contentTypeLabels, statusLabels } from "@/config/categories";
+import { siteConfig } from "@/config/site";
 
 export default async function AdminContentListPage() {
   const content = await getAllContent();
@@ -64,7 +65,7 @@ export default async function AdminContentListPage() {
                     </span>
                   </td>
                   <td className="px-4 py-3 text-foreground/60">
-                    {new Date(item.updated_at).toLocaleDateString("ar")}
+                    {new Date(item.updated_at).toLocaleDateString(siteConfig.language)}
                   </td>
                 </tr>
               ))}

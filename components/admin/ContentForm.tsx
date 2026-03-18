@@ -11,6 +11,7 @@ import {
 import type { Content, Category } from "@/lib/types";
 import { slugify } from "@/lib/slugify";
 import { contentTypes } from "@/config/categories";
+import type { ContentTypeValue } from "@/config/categories";
 
 interface ContentFormProps {
   content?: Content | null;
@@ -185,9 +186,7 @@ export default function ContentForm({
           <select
             value={type}
             onChange={(e) =>
-              setType(
-                e.target.value as "article" | "review" | "comparison" | "guide"
-              )
+              setType(e.target.value as ContentTypeValue)
             }
             className="w-full border border-foreground/20 rounded px-3 py-2 bg-background"
           >
