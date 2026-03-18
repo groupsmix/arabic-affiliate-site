@@ -7,6 +7,8 @@ import ContentBody from "@/components/ContentBody";
 import ProductCard from "@/components/ProductCard";
 import JsonLdBreadcrumb from "@/components/JsonLdBreadcrumb";
 import { getContentBySlug, getCategories } from "@/lib/queries";
+import { siteConfig } from "@/config/site";
+import { commercialTypes } from "@/config/categories";
 
 export const revalidate = 60;
 
@@ -53,7 +55,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
   }
   breadcrumbs.push({ label: content.title });
 
-  const jsonLdItems = [{ name: "الرئيسية", url: "/" }];
+  const jsonLdItems = [{ name: siteConfig.homeLabel, url: "/" }];
   if (content.category) {
     jsonLdItems.push({
       name: content.category.name,
@@ -63,10 +65,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
   jsonLdItems.push({ name: content.title, url: `/content/${slug}` });
 
   const hasProducts = content.products && content.products.length > 0;
-  const isCommercial =
-    content.type === "review" ||
-    content.type === "comparison" ||
-    content.type === "guide";
+  const isCommercial = commercialTypes.has(content.type);
   const showProductsSidebar = hasProducts && isCommercial;
 
   return (
@@ -78,12 +77,10 @@ export default async function ContentPage({ params }: ContentPageProps) {
       {(hasProducts || isCommercial) && (
         <div className="text-sm bg-foreground/5 rounded p-3 mb-4 space-y-1">
           <p className="text-foreground/50">
-            يحتوي هذا المحتوى على روابط تسويقية. قد نحصل على عمولة عند الشراء
-            من خلال هذه الروابط دون أي تكلفة إضافية عليك.
+            {siteConfig.contentDisclosure}
           </p>
           <p className="text-foreground/40 text-xs">
-            الأسعار المعروضة إرشادية وقد تتغير. التوفر والشحن قد يختلف حسب
-            موقعك. يُرجى التحقق من التاجر قبل الشراء.
+            {siteConfig.availabilityDisclaimer}
           </p>
         </div>
       )}
@@ -94,7 +91,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
             <ContentBody html={content.body} />
           </div>
           <aside>
-            <h2 className="font-semibold text-lg mb-4">المنتجات</h2>
+            <h2 className="font-semibold text-lg mb-4">{siteConfig.productsHeading}</h2>
             <div className="space-y-4">
               {content.products!.map((product) => (
                 <ProductCard key={product.id} product={product} contentSlug={slug} />
@@ -107,7 +104,7 @@ export default async function ContentPage({ params }: ContentPageProps) {
           <ContentBody html={content.body} />
           {hasProducts && (
             <div className="mt-8">
-              <h2 className="font-semibold text-lg mb-4">المنتجات</h2>
+              <h2 className="font-semibold text-lg mb-4">{siteConfig.productsHeading}</h2>
               <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
                 {content.products!.map((product) => (
                   <ProductCard key={product.id} product={product} contentSlug={slug} />

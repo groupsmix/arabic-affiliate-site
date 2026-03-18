@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Category } from "@/lib/types";
+import { siteConfig } from "@/config/site";
 
 interface ShellProps {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ export default function Shell({ children, categories = [] }: ShellProps) {
       <header className="border-b border-foreground/10 bg-background sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="text-xl font-bold">
-            موقع المحتوى
+            {siteConfig.name}
           </Link>
           <nav className="flex flex-wrap gap-2 sm:gap-4 text-sm">
             {categories.map((cat) => (
@@ -35,20 +36,15 @@ export default function Shell({ children, categories = [] }: ShellProps) {
       <footer className="border-t border-foreground/10 py-6 text-center text-sm text-foreground/50">
         <div className="max-w-5xl mx-auto px-4 space-y-2">
           <nav className="flex justify-center gap-4">
-            <Link href="/about" className="hover:underline">
-              من نحن
-            </Link>
-            <Link href="/privacy" className="hover:underline">
-              سياسة الخصوصية
-            </Link>
-            <Link href="/terms" className="hover:underline">
-              شروط الاستخدام
-            </Link>
+            {siteConfig.footerLinks.map((link) => (
+              <Link key={link.href} href={link.href} className="hover:underline">
+                {link.label}
+              </Link>
+            ))}
           </nav>
-          <p>&copy; {new Date().getFullYear()} موقع المحتوى</p>
+          <p>&copy; {new Date().getFullYear()} {siteConfig.name}</p>
           <p className="text-xs text-foreground/30">
-            يحتوي الموقع على روابط تسويقية. قد نحصل على عمولة عند الشراء من
-            خلالها دون أي تكلفة إضافية عليك.
+            {siteConfig.affiliateDisclosure}
           </p>
         </div>
       </footer>

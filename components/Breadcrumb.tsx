@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { siteConfig } from "@/config/site";
 
 interface BreadcrumbItem {
   label: string;
@@ -13,7 +14,7 @@ export default function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <nav className="text-sm text-foreground/50 mb-4 flex items-center gap-1">
       <Link href="/" className="hover:underline">
-        الرئيسية
+        {siteConfig.homeLabel}
       </Link>
       {items.map((item, i) => (
         <span key={i} className="flex items-center gap-1">

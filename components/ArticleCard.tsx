@@ -1,16 +1,10 @@
 import Link from "next/link";
 import type { Content } from "@/lib/types";
+import { contentTypeLabels } from "@/config/categories";
 
 interface ArticleCardProps {
   content: Content;
 }
-
-const TYPE_LABELS: Record<string, string> = {
-  article: "مقال",
-  review: "مراجعة",
-  comparison: "مقارنة",
-  guide: "دليل شراء",
-};
 
 export default function ArticleCard({ content }: ArticleCardProps) {
   return (
@@ -25,7 +19,7 @@ export default function ArticleCard({ content }: ArticleCardProps) {
           </Link>
         )}
         {content.category && <span>&middot;</span>}
-        <span>{TYPE_LABELS[content.type] ?? content.type}</span>
+        <span>{contentTypeLabels[content.type] ?? content.type}</span>
       </div>
       <h2 className="text-xl font-semibold mb-2">
         <Link href={`/content/${content.slug}`} className="hover:underline">

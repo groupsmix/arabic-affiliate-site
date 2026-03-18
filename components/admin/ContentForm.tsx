@@ -10,18 +10,12 @@ import {
 } from "@/lib/actions";
 import type { Content, Category } from "@/lib/types";
 import { slugify } from "@/lib/slugify";
+import { contentTypes } from "@/config/categories";
 
 interface ContentFormProps {
   content?: Content | null;
   categories: Category[];
 }
-
-const TYPE_OPTIONS = [
-  { value: "article", label: "مقال" },
-  { value: "review", label: "مراجعة" },
-  { value: "comparison", label: "مقارنة" },
-  { value: "guide", label: "دليل شراء" },
-];
 
 export default function ContentForm({
   content,
@@ -197,7 +191,7 @@ export default function ContentForm({
             }
             className="w-full border border-foreground/20 rounded px-3 py-2 bg-background"
           >
-            {TYPE_OPTIONS.map((opt) => (
+            {contentTypes.map((opt) => (
               <option key={opt.value} value={opt.value}>
                 {opt.label}
               </option>
