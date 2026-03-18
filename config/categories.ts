@@ -27,7 +27,6 @@ export const contentTypes = [
   { value: "article", label: "مقال", commercial: false, layout: "standard" },
   { value: "review", label: "مراجعة", commercial: true, layout: "sidebar" },
   { value: "comparison", label: "مقارنة", commercial: true, layout: "sidebar", minProducts: 2 },
-  { value: "best", label: "أفضل المنتجات", commercial: true, layout: "sidebar", minProducts: 2 },
   { value: "guide", label: "دليل شراء", commercial: true, layout: "sidebar" },
 ] as const satisfies readonly ContentTypeConfig[];
 
