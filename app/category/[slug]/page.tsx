@@ -10,6 +10,8 @@ import {
   getPublishedContentByCategory,
   getCategories,
 } from "@/lib/queries";
+import { siteConfig } from "@/config/site";
+import { seoConfig } from "@/config/seo";
 
 export const revalidate = 60;
 
@@ -26,13 +28,13 @@ export async function generateMetadata({
 
   return {
     title: category.name,
-    description: `مقالات ومراجعات في تصنيف ${category.name}`,
+    description: seoConfig.categoryDescriptionTemplate.replace("%s", category.name),
     alternates: {
       canonical: `/category/${slug}`,
     },
     openGraph: {
       title: category.name,
-      description: `مقالات ومراجعات في تصنيف ${category.name}`,
+      description: seoConfig.categoryDescriptionTemplate.replace("%s", category.name),
     },
   };
 }
@@ -48,7 +50,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   if (!category) notFound();
 
   const jsonLdItems = [
-    { name: "الرئيسية", url: "/" },
+    { name: siteConfig.homeLabel, url: "/" },
     { name: category.name, url: `/category/${slug}` },
   ];
 
@@ -58,7 +60,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       <Breadcrumb items={[{ label: category.name }]} />
       <PageHeader title={category.name} />
       {articles.length === 0 ? (
-        <p className="text-foreground/50">لا توجد مقالات في هذا التصنيف.</p>
+        <p className="text-foreground/50">{siteConfig.noCategoryArticlesText}</p>
       ) : (
         <div className="grid gap-4 sm:grid-cols-2">
           {articles.map((article) => (

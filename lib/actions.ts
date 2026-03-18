@@ -7,6 +7,7 @@ import { verifyToken } from "./auth";
 import { sanitizeHtml, stripHtml } from "./sanitize";
 import { slugify } from "./slugify";
 import type { Content, Product, Category } from "./types";
+import { commercialTypes } from "@/config/categories";
 
 // ---- Auth helper ----
 
@@ -40,10 +41,7 @@ function validateContent(
   if (!slug.trim()) errors.push("الرابط المختصر مطلوب");
   if (!body.trim()) errors.push("المحتوى مطلوب");
 
-  if (
-    (type === "review" || type === "comparison" || type === "guide") &&
-    !hasProducts
-  ) {
+  if (commercialTypes.has(type) && !hasProducts) {
     warnings.push("صفحة تجارية بدون منتجات مرتبطة");
   }
 

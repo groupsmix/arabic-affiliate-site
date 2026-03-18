@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Product } from "@/lib/types";
 import AffiliateLink from "@/components/AffiliateLink";
+import { siteConfig } from "@/config/site";
 
 interface ProductCardProps {
   product: Product;
@@ -28,7 +29,7 @@ export default function ProductCard({ product, contentSlug }: ProductCardProps) 
       {product.price && (
         <div className="mb-3">
           <p className="text-sm font-bold">{product.price}</p>
-          <p className="text-xs text-foreground/40">السعر إرشادي وقد يتغير</p>
+          <p className="text-xs text-foreground/40">{siteConfig.priceDisclaimer}</p>
         </div>
       )}
       {product.affiliate_url && (
@@ -38,7 +39,7 @@ export default function ProductCard({ product, contentSlug }: ProductCardProps) 
           contentSlug={contentSlug}
           className="block w-full text-center bg-foreground text-background px-4 py-2 rounded text-sm font-medium hover:opacity-80"
         >
-          اشتري الآن
+          {siteConfig.buyButtonLabel}
         </AffiliateLink>
       )}
     </div>

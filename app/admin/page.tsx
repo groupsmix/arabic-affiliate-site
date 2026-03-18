@@ -1,17 +1,6 @@
 import Link from "next/link";
 import { getAllContent } from "@/lib/actions";
-
-const STATUS_LABELS: Record<string, string> = {
-  draft: "مسودة",
-  published: "منشور",
-};
-
-const TYPE_LABELS: Record<string, string> = {
-  article: "مقال",
-  review: "مراجعة",
-  comparison: "مقارنة",
-  guide: "دليل",
-};
+import { contentTypeLabels, statusLabels } from "@/config/categories";
 
 export default async function AdminContentListPage() {
   const content = await getAllContent();
@@ -61,7 +50,7 @@ export default async function AdminContentListPage() {
                     )}
                   </td>
                   <td className="px-4 py-3 text-foreground/60">
-                    {TYPE_LABELS[item.type] ?? item.type}
+                    {contentTypeLabels[item.type] ?? item.type}
                   </td>
                   <td className="px-4 py-3">
                     <span
@@ -71,7 +60,7 @@ export default async function AdminContentListPage() {
                           : "text-yellow-600"
                       }
                     >
-                      {STATUS_LABELS[item.status] ?? item.status}
+                      {statusLabels[item.status] ?? item.status}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-foreground/60">
