@@ -1,4 +1,4 @@
--- Arabic Affiliate Site - Database Schema
+-- Affiliate Content Starter - Database Schema
 -- Run this in your Supabase SQL Editor to set up the tables.
 
 -- Categories
@@ -31,6 +31,7 @@ CREATE TABLE products (
   affiliate_url text DEFAULT '',
   image_url text DEFAULT '',
   price text DEFAULT '',
+  merchant text DEFAULT '',
   created_at timestamptz DEFAULT now()
 );
 

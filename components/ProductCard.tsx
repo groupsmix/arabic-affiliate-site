@@ -32,6 +32,11 @@ export default function ProductCard({ product, contentSlug }: ProductCardProps) 
           <p className="text-xs text-foreground/40">{siteConfig.priceDisclaimer}</p>
         </div>
       )}
+      {product.merchant && (
+        <p className="text-xs text-foreground/50 mb-2">
+          {siteConfig.merchantLabel}: {product.merchant}
+        </p>
+      )}
       {product.affiliate_url && (
         <AffiliateLink
           href={product.affiliate_url}
