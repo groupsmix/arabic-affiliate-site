@@ -51,7 +51,11 @@ ALTER TABLE content_products ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Public read categories" ON categories FOR SELECT USING (true);
 CREATE POLICY "Public read published content" ON content FOR SELECT USING (status = 'published');
 CREATE POLICY "Public read products" ON products FOR SELECT USING (true);
-CREATE POLICY "Public read content_products" ON content_products FOR SELECT USING (true);
+CREATE POLICY "Public read content_products" ON content_products FOR SELECT USING (
+  EXISTS (
+    SELECT 1 FROM content WHERE content.id = content_products.content_id AND content.status = 'published'
+  )
+);
 
 -- Affiliate click tracking
 CREATE TABLE affiliate_clicks (
@@ -71,4 +75,5 @@ CREATE INDEX idx_content_status ON content(status);
 CREATE INDEX idx_content_category ON content(category_id);
 CREATE INDEX idx_content_slug ON content(slug);
 CREATE INDEX idx_categories_slug ON categories(slug);
+CREATE INDEX idx_content_products_product ON content_products(product_id);
 CREATE INDEX idx_affiliate_clicks_created ON affiliate_clicks(created_at);
